@@ -1,0 +1,164 @@
+{
+  "what": "One obligation taken through its whole lifecycle in the WITNESS app itself: the app's own forms, EIP-6963 wallet discovery and transaction code, signed by the test wallet in tests/e2e/test-wallet.js holding throwaway, faucet-funded keys. Every field below is read back from StudioNet by scripts/record_app_e2e.py.",
+  "recorded_at": "2026-09-21T08:49:00Z",
+  "network": "GenLayer StudioNet",
+  "chain_id": 61999,
+  "contract": "0x60191e5A0Cb612d62241EE281cd0fcEEB69c2811",
+  "obligation_id": "5",
+  "roles": {
+    "creator": "0xB6F0187c93398923740B3E2b79F10204DC75BBf7",
+    "responsible_party": "0x4a15D50Ad218Fc1E18424DB887AC33B07210c45F",
+    "consequence_recipient": "0x324DBda209bEe7c235c866385B8978c6b3946D93"
+  },
+  "transactions": [
+    {
+      "tx": "0x57d5edf26a2b3f384d06ff102353ca33d020e3953b0b8530d6c88b5997a85cd8",
+      "from": "0xB6F0187c93398923740B3E2b79F10204DC75BBf7",
+      "to": "0x60191e5A0Cb612d62241EE281cd0fcEEB69c2811",
+      "method": "create_obligation",
+      "args": [
+        "Publish genlayer-js v1.1.8 as a public release with installation documentation.",
+        "0x4a15D50Ad218Fc1E18424DB887AC33B07210c45F",
+        "0x324DBda209bEe7c235c866385B8978c6b3946D93",
+        "1789979880",
+        "10000000000000000",
+        "{\"criteria\":[{\"kind\":\"OBJECTIVE\",\"required\":true,\"text\":\"The release is tagged v1.1.8.\",\"source_id\":\"E1\",\"op\":\"EQUALS\",\"field\":\"tag_name\",\"expected\":\"v1.1.8\"},{\"kind\":\"OBJECTIVE\",\"required\":true,\"text\":\"It was published on or before the deadline.\",\"source_id\":\"E1\",\"op\":\"BEFORE_DEADLINE\",\"field\":\"published_at\"},{\"kind\":\"SEMANTIC\",\"required\":true,\"text\":\"The documentation explains how to install the SDK.\",\"source_ids\":[\"E2\"]}],\"evidence_sources\":[{\"source_type\":\"GITHUB\",\"location\":\"https://api.github.com/repos/genlayerlabs/genlayer-js/releases/tags/v1.1.8\",\"description\":\"The GitHub release record for v1.1.8\"},{\"source_type\":\"GITHUB\",\"location\":\"https://raw.githubusercontent.com/genlayerlabs/genlayer-js/v1.1.8/README.md\",\"description\":\"The README at the v1.1.8 tag\"}],\"consequences\":{\"FULFILLED\":10000,\"PARTIALLY_FULFILLED\":5000,\"NOT_FULFILLED\":0,\"INSUFFICIENT_EVIDENCE\":5000}}"
+      ],
+      "value_atto": "0",
+      "status": "FINALIZED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "votes": {
+        "agree": 3,
+        "idle": 2
+      },
+      "created_at": "2026-09-21T08:28:22.313172+00:00",
+      "explorer": "https://explorer-studio.genlayer.com/tx/0x57d5edf26a2b3f384d06ff102353ca33d020e3953b0b8530d6c88b5997a85cd8"
+    },
+    {
+      "tx": "0x2fc6e493ad0678eaa0651078af34481331818a295cb2166a24b1669e6429c829",
+      "from": "0x4a15D50Ad218Fc1E18424DB887AC33B07210c45F",
+      "to": "0x60191e5A0Cb612d62241EE281cd0fcEEB69c2811",
+      "method": "fund_obligation",
+      "args": [
+        "5"
+      ],
+      "value_atto": "10000000000000000",
+      "status": "FINALIZED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "votes": {
+        "agree": 3,
+        "idle": 2
+      },
+      "created_at": "2026-09-21T08:29:52.586809+00:00",
+      "explorer": "https://explorer-studio.genlayer.com/tx/0x2fc6e493ad0678eaa0651078af34481331818a295cb2166a24b1669e6429c829"
+    },
+    {
+      "tx": "0x525fb632c8f03695588767926ef56eb97f85e974f9073a2323ccde0199d241fc",
+      "from": "0x4a15D50Ad218Fc1E18424DB887AC33B07210c45F",
+      "to": "0x60191e5A0Cb612d62241EE281cd0fcEEB69c2811",
+      "method": "verify_obligation",
+      "args": [
+        "5"
+      ],
+      "value_atto": "0",
+      "status": "FINALIZED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "votes": {
+        "agree": 3,
+        "idle": 2
+      },
+      "created_at": "2026-09-21T08:38:52.023609+00:00",
+      "explorer": "https://explorer-studio.genlayer.com/tx/0x525fb632c8f03695588767926ef56eb97f85e974f9073a2323ccde0199d241fc"
+    },
+    {
+      "tx": "0xe40053cacb1b14d7d06d5cab64aaf51509c99c8e4a3cf72dff3c8197edd1185d",
+      "from": "0xB6F0187c93398923740B3E2b79F10204DC75BBf7",
+      "to": "0x60191e5A0Cb612d62241EE281cd0fcEEB69c2811",
+      "method": "finalize_verdict",
+      "args": [
+        "5"
+      ],
+      "value_atto": "0",
+      "status": "FINALIZED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "votes": {
+        "agree": 5
+      },
+      "created_at": "2026-09-21T08:44:56.736045+00:00",
+      "explorer": "https://explorer-studio.genlayer.com/tx/0xe40053cacb1b14d7d06d5cab64aaf51509c99c8e4a3cf72dff3c8197edd1185d"
+    },
+    {
+      "tx": "0x3a4f512a4910435c9481c07734b60aff4d16b83d830a50c5f683f3c26bf00360",
+      "from": "0xB6F0187c93398923740B3E2b79F10204DC75BBf7",
+      "to": "0x60191e5A0Cb612d62241EE281cd0fcEEB69c2811",
+      "method": "settle_obligation",
+      "args": [
+        "5"
+      ],
+      "value_atto": "0",
+      "status": "FINALIZED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "votes": {
+        "agree": 3,
+        "idle": 2
+      },
+      "created_at": "2026-09-21T08:46:01.761797+00:00",
+      "explorer": "https://explorer-studio.genlayer.com/tx/0x3a4f512a4910435c9481c07734b60aff4d16b83d830a50c5f683f3c26bf00360"
+    }
+  ],
+  "outcome": {
+    "status": "SETTLED",
+    "verdict": "FULFILLED",
+    "bond_required_atto": "10000000000000000",
+    "paid_responsible_atto": "10000000000000000",
+    "paid_recipient_atto": "0",
+    "bond_remaining_atto": "0",
+    "criteria": [
+      {
+        "criterion_id": "C1",
+        "result": "PASS",
+        "evidence_refs": [
+          "E1"
+        ],
+        "observed": "v1.1.8",
+        "quote": ""
+      },
+      {
+        "criterion_id": "C2",
+        "result": "PASS",
+        "evidence_refs": [
+          "E1"
+        ],
+        "observed": "2026-05-06T23:13:45Z",
+        "quote": ""
+      },
+      {
+        "criterion_id": "C3",
+        "result": "PASS",
+        "evidence_refs": [
+          "E2"
+        ],
+        "observed": "",
+        "quote": "## \ud83d\udee0\ufe0f Installation and Usage To install the GenLayerJS SDK, use the following command: ```bash $ npm install genlayer-js ```"
+      }
+    ],
+    "evidence": [
+      {
+        "source_id": "E1",
+        "location": "https://api.github.com/repos/genlayerlabs/genlayer-js/releases/tags/v1.1.8",
+        "status": "OK"
+      },
+      {
+        "source_id": "E2",
+        "location": "https://raw.githubusercontent.com/genlayerlabs/genlayer-js/v1.1.8/README.md",
+        "status": "OK"
+      }
+    ]
+  },
+  "problems": []
+}

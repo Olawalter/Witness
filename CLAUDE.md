@@ -22,7 +22,10 @@ authority, and the bond is an on-chain amount, not a number in a database.
 - Always zero the ledger and mark settled before emitting a transfer.
 - Always run `genvm-lint` after a contract change, then the direct suite, then the mutation sweep.
 - Always run the live suite for anything touching evidence, adjudication, finality or settlement.
-- Always distinguish submitted, pending, decided and finalized in the interface.
+- Always distinguish submitted, pending, decided and finalized in the interface, and tick a step
+  only once it has been observed: `rungsFor` in `src/lib/genlayer/tx.ts`, pinned by `tx.test.ts`.
+- Never write a transaction hash into the docs by hand. Generate it from a recorded artifact
+  (`docs/live-e2e.json`, `docs/app-e2e.json`).
 
 ## Layout
 
@@ -30,10 +33,13 @@ authority, and the bond is an on-chain amount, not a number in a database.
 contracts/Witness.py      the only contract; runner pinned on line 1
 tests/direct/             gltest direct mode: real GenVM runner, mocked web and model
 tests/integration/        the live StudioNet suite; writes docs/live-e2e.json
-scripts/deploy.py         deploy from git bytes, verify, record
-scripts/inspect.py        byte-verify a deployment and write its schema
-scripts/mutate.py         mutation sweep over the direct suite
+scripts/deploy.py              deploy from git bytes, verify, record
+scripts/verify_deployment.py   byte-verify a deployment and write its schema
+scripts/mutate.py              mutation sweep over the direct suite
 scripts/fetch_genvm_bundle.py  seeds the GenVM runner bundle both tools read
+scripts/e2e_accounts.py        throwaway, faucet-funded accounts for the in-app run
+scripts/record_app_e2e.py      proves an in-app run from the chain; writes docs/app-e2e.json
+tests/e2e/test-wallet.js       an EIP-6963 test wallet, pasted into the running app
 src/                      the Next.js app (App Router, strict TypeScript)
   lib/contracts/          the schema-first adapter and the acts a viewer may perform
   lib/genlayer/           config, clients, the transaction state machine
@@ -52,7 +58,8 @@ python scripts/mutate.py
 SKIP_INTEGRATION=0 python -m pytest tests/integration -v -s
 npm run lint && npm run typecheck && npm test && npm run build
 python scripts/deploy.py
-python scripts/inspect.py <address> --write-deployment
+python scripts/verify_deployment.py <address> --write-deployment
+python scripts/record_app_e2e.py <obligation> <tx> [<tx> …]
 ```
 
 On Windows set `PYTHONUTF8=1`. `genvm-lint` picks the newest cached GenVM bundle, which may not carry
@@ -65,7 +72,7 @@ fresh machine — reproduce with an empty `HOME`.
 
 ## After a contract change
 
-Lint, direct tests, mutation sweep, redeploy, `inspect.py --write-deployment` (which rewrites
+Lint, direct tests, mutation sweep, redeploy, `verify_deployment.py --write-deployment` (which rewrites
 `src/lib/contracts/witness-schema.json`, the fixture the frontend's schema test pins against), then
 update `NEXT_PUBLIC_WITNESS_CONTRACT` everywhere it appears: `.env.example`, `.env.local`, the CI
 workflow, `README.md` and `docs/`. One address everywhere.

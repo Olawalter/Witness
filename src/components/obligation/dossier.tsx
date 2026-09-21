@@ -211,18 +211,16 @@ export function Dossier({ id }: { id: string }) {
             <VerdictStamp verdict={o.verdict} size="lg" />
             <div className="grid gap-3">
               <p className="text-sm">{VERDICT_MEANING[o.verdict]}</p>
-              <div className="grid gap-4 sm:grid-cols-3">
+              <div className="grid gap-4 sm:grid-cols-2">
                 <Field label="Proposed" mono>{formatTime(o.proposed_at)}</Field>
-                <Field label="Final" mono>
-                  {o.finalized_at ? formatTime(o.finalized_at) : `Not yet; ready ${formatTime(o.finalizable_at)}`}
-                </Field>
-                <Field label="GenLayer" mono>
-                  {o.finalized_at ? "Finalized" : "Accepted, appealable"}
+                <Field label="Verdict final" mono>
+                  {o.finalized_at ? formatTime(o.finalized_at) : `Not yet; can be finalized from ${formatTime(o.finalizable_at)}`}
                 </Field>
               </div>
               <p className="text-xs text-muted">
-                A verdict is recorded when the validator panel agrees, and becomes final only after the contract&apos;s
-                own finality delay has passed, which is far longer than the network&apos;s appeal window.
+                Two kinds of final. The verification transaction becomes final on GenLayer once its appeal window
+                closes, within a minute or so. The verdict itself becomes final only after the contract&apos;s own delay,
+                which is far longer, and only a final verdict can move the bond.
               </p>
             </div>
           </div>
@@ -241,10 +239,17 @@ export function Dossier({ id }: { id: string }) {
               <Field label="Settled" mono>{formatTime(o.settled_at || o.recovered_at)}</Field>
             </div>
           </div>
+        ) : BigInt(o.bond_deposited) > BigInt(0) ? (
+          <p className="text-sm text-muted">
+            The contract holds the bond: <span className="figure">{formatGen(o.bond_deposited)}</span>. It moves only
+            after the verdict is final, and only as the terms above say.
+          </p>
+        ) : o.status === "CANCELLED" ? (
+          <p className="text-sm text-muted">Cancelled before any bond was committed. Nothing was held and nothing moves.</p>
         ) : (
           <p className="text-sm text-muted">
-            The bond is still held by the contract: <span className="figure">{formatGen(o.bond_deposited)}</span>. It
-            moves only after the verdict is final, and only as the terms above say.
+            No bond has been committed yet, so there is nothing to settle. Once the responsible party commits it, the
+            contract holds it until the verdict is final.
           </p>
         )}
       </Section>
@@ -265,7 +270,7 @@ export function Dossier({ id }: { id: string }) {
             </li>
             <li className="text-xs text-muted">
               Or from a terminal:{" "}
-              <code className="font-mono">python scripts/inspect.py &lt;address&gt; --obligation {o.obligation_id}</code>
+              <code className="font-mono">python scripts/verify_deployment.py &lt;address&gt; --obligation {o.obligation_id}</code>
             </li>
           </ul>
         </div>

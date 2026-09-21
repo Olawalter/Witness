@@ -86,12 +86,68 @@ All four settlements were sent and waited for to FINALIZED:
 The contract held exactly the four bonds before settlement and zero after; the two wallets gained exactly
 0.04 GEN between them: 0.015 GEN to the responsible party and 0.025 GEN to the recipient.
 
+## The in-app run
+
+The live suite above signs from Python. This run went through the application itself: its nine-step
+create flow, its EIP-6963 wallet discovery, its network check, its transaction tracker and its
+obligation page, each act offered by the page and clicked. The only substitute was the wallet:
+[`tests/e2e/test-wallet.js`](../tests/e2e/test-wallet.js) announces itself over EIP-6963 exactly as
+MetaMask would and signs the transaction genlayer-js composes, with throwaway keys funded from the
+faucet. Everything else ran unmodified.
+
+Every value below is read back from StudioNet by
+[`scripts/record_app_e2e.py`](../scripts/record_app_e2e.py) into [`app-e2e.json`](app-e2e.json),
+which decodes each transaction's method from its own calldata rather than taking a label on trust.
+
+Obligation 5: *Publish genlayer-js v1.1.8 as a public release with installation
+documentation*, two objective criteria on GitHub's release record and one semantic criterion on the
+README at the tag, bond 0.01 GEN.
+
+| Step in the app | Method (from calldata) | Signed by | Value | GenLayer | Transaction |
+|---|---|---|---|---|---|
+| Create obligation, the nine-step form, signed | `create_obligation` | creator | 0 | FINALIZED, MAJORITY_AGREE | `0x57d5edf26a2b3f384d06ff102353ca33d020e3953b0b8530d6c88b5997a85cd8` |
+| Commit the bond | `fund_obligation` | responsible party | 0.01 GEN | FINALIZED, MAJORITY_AGREE | `0x2fc6e493ad0678eaa0651078af34481331818a295cb2166a24b1669e6429c829` |
+| Witness the evidence | `verify_obligation` | responsible party | 0 | FINALIZED, MAJORITY_AGREE | `0x525fb632c8f03695588767926ef56eb97f85e974f9073a2323ccde0199d241fc` |
+| Finalize the verdict | `finalize_verdict` | creator | 0 | FINALIZED, MAJORITY_AGREE | `0xe40053cacb1b14d7d06d5cab64aaf51509c99c8e4a3cf72dff3c8197edd1185d` |
+| Settle the bond | `settle_obligation` | creator | 0 | FINALIZED, MAJORITY_AGREE | `0x3a4f512a4910435c9481c07734b60aff4d16b83d830a50c5f683f3c26bf00360` |
+
+The creator, the responsible party and the creator again: finalizing and settling are open to
+anyone, and were done by someone other than the party whose bond it was.
+
+| Criterion | Result | Source | Basis |
+|---|---|---|---|
+| C1 | PASS | E1 | observed `v1.1.8` |
+| C2 | PASS | E1 | observed `2026-05-06T23:13:45Z` |
+| C3 | PASS | E2 | quote found by each agreeing validator in its own fetch |
+
+Verdict **FULFILLED**, status SETTLED. Paid to the responsible party
+0.01 GEN, to the recipient 0 GEN, bond remaining
+0 GEN. Balances read in the same session agreed: the contract's fell by
+exactly the bond and the responsible party's rose by exactly the bond.
+
+### What it found
+
+The run found defects no unit test had caught, each fixed and re-checked in the browser:
+
+- **The create flow could not be completed in order.** Criteria (step 03) asked which source decides
+  each criterion before any source existed (step 04), and the step would not advance. The binding
+  now lives at Evidence, where the sources are, keeping the brief's order.
+- **The transaction tracker ticked steps before they happened.** It showed consensus done while
+  validators were still voting and described an accepted transaction as past its appeal window.
+  `rungsFor` in `src/lib/genlayer/tx.ts` now decides each step's state, pinned by
+  `tx.test.ts`; the old behaviour fails three of its tests.
+- **Two meanings of final shown side by side.** The tracker's *Final on GenLayer* (the transaction)
+  and the obligation's *Verdict final* (the contract's own delay) are now named apart, and a status
+  the page could not know was removed.
+- **Smaller:** a settlement sentence that said a bond was "still held" before one existed, and a
+  command that named a renamed script.
+
 ## The reviewer's path
 
 Nothing below needs this repository's frontend.
 
 ```bash
-python scripts/inspect.py 0x60191e5A0Cb612d62241EE281cd0fcEEB69c2811 --obligation 1
+python scripts/verify_deployment.py 0x60191e5A0Cb612d62241EE281cd0fcEEB69c2811 --obligation 1
 ```
 
 prints, read from StudioNet alone: the deployed code compared byte for byte with
@@ -123,10 +179,9 @@ injected wallet on StudioNet:
 
 ## What has not been done this way
 
-- **A run with a person's own wallet.** Every live transaction above was signed by the test suite
-  with throwaway keys. The app's own write path is exercised by the schema test (every composed call
-  pinned against the deployed schema) and by the transaction state machine's tests, but a human
-  wallet run is still outstanding.
+- **A run with a person's own wallet.** The in-app run above used the app's whole write path, but
+  its signatures came from a test wallet holding throwaway keys, not from MetaMask or Rabby in a
+  person's hands. That run is still outstanding.
 - **Recovery.** `recover_obligation` opens seven days after a deadline with no verdict, so it is
   proven in the direct suite against a warped clock, not live.
 - **PARTIALLY_FULFILLED.** Its arithmetic and derivation are proven in the direct suite; the live run

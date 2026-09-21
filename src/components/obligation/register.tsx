@@ -38,13 +38,12 @@ export function Register() {
         </p>
       </header>
 
-      <div role="tablist" aria-label="Which obligations" className="mb-6 flex flex-wrap gap-2">
+      <div role="group" aria-label="Which obligations" className="mb-6 flex flex-wrap gap-2">
         {tabs.map((t) => (
           <button
             key={t.id}
-            role="tab"
             type="button"
-            aria-selected={scope === t.id}
+            aria-pressed={scope === t.id}
             onClick={() => setScope(t.id)}
             className={`border px-3 py-1.5 text-sm ${scope === t.id ? "border-ink bg-ink text-paper" : "border-rule hover:border-ink"}`}
           >

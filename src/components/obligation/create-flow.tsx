@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { TermsReview } from "@/components/obligation/terms-review";
 import { TxTracker } from "@/components/obligation/tx-tracker";
@@ -39,7 +39,7 @@ const STEPS = [
 ] as const;
 
 const field =
-  "w-full border border-rule bg-paper px-3 py-2 text-sm focus:border-ink focus:outline-none aria-[invalid=true]:border-not-fulfilled";
+  "w-full border border-edge bg-paper px-3 py-2 text-sm focus:border-ink aria-[invalid=true]:border-not-fulfilled";
 
 function toLocal(unix: number): string {
   return new Date(unix * 1000).toISOString().slice(0, 16);
@@ -48,6 +48,8 @@ function fromLocal(value: string): number {
   const ms = Date.parse(`${value}:00Z`);
   return Number.isFinite(ms) ? Math.floor(ms / 1000) : 0;
 }
+
+const BINDING = /^criteria\.\d+\.source_ids?$/;
 
 function problemsFor(problems: Problems, prefix: string[]): Problems {
   return Object.fromEntries(
@@ -63,11 +65,28 @@ export function CreateFlow() {
   const sender = useSend();
   const [draft, setDraft] = useState<Draft>(() => blankDraft(Math.floor(Date.now() / 1000)));
   const [step, setStep] = useState(0);
+  // Moving between steps replaces the form under the button that was pressed;
+  // focus goes to the new step's heading so a screen reader announces it.
+  const title = useRef<HTMLHeadingElement>(null);
+  const announced = useRef(step);
+  useEffect(() => {
+    if (announced.current === step) return;
+    announced.current = step;
+    title.current?.focus();
+  }, [step]);
   const [shown, setShown] = useState<Set<number>>(new Set());
 
   const live = useMemo(() => ({ ...draft, now }), [draft, now]);
   const problems = validateDraft(live);
-  const stepProblems = (i: number) => problemsFor(problems, [...STEPS[i]!.fields]);
+  // Which source decides a criterion is chosen at Evidence, where the sources
+  // exist: Criteria comes first in the brief's order, so its step cannot own it.
+  const stepProblems = (i: number) => {
+    const own = problemsFor(problems, [...STEPS[i]!.fields]);
+    const id = STEPS[i]!.id;
+    if (id === "criteria") return Object.fromEntries(Object.entries(own).filter(([k]) => !BINDING.test(k)));
+    if (id === "evidence") return { ...own, ...Object.fromEntries(Object.entries(problems).filter(([k]) => BINDING.test(k))) };
+    return own;
+  };
   const visible = shown.has(step) ? stepProblems(step) : {};
   const firstBad = STEPS.findIndex((s, i) => i < 7 && Object.keys(stepProblems(i)).length > 0);
   const ready = Object.keys(problems).length === 0;
@@ -124,12 +143,14 @@ export function CreateFlow() {
                   type="button"
                   aria-current={on ? "step" : undefined}
                   onClick={() => setStep(i)}
-                  className={`flex w-full items-baseline gap-2.5 px-2 py-1.5 text-left text-sm ${on ? "bg-ink text-paper" : "hover:bg-surface"}`}
+                  className={`relative flex w-full items-baseline gap-2.5 px-2 py-1.5 text-left text-sm ${on ? "bg-ink text-paper" : "hover:bg-surface"}`}
                 >
-                  <span className={`figure text-[11px] ${on ? "text-amber" : complete ? "text-fulfilled" : "text-muted"}`}>
+                  <span className={`figure text-[11px] ${on ? "text-amber" : complete ? "text-fulfilled" : "text-muted"}`}
+                        aria-hidden="true">
                     {complete ? "✓" : s.no}
                   </span>
                   {s.label}
+                  {complete ? <span className="sr-only">, complete</span> : null}
                 </button>
               </li>
             );
@@ -137,7 +158,7 @@ export function CreateFlow() {
         </ol>
 
         <section className="grid gap-5" aria-labelledby="step-title">
-          <h2 id="step-title" className="flex items-baseline gap-3 text-2xl">
+          <h2 id="step-title" ref={title} tabIndex={-1} className="flex items-baseline gap-3 text-2xl focus:outline-none">
             <span className="section-no">{current.no}</span>
             {current.label}
           </h2>
@@ -191,85 +212,64 @@ export function CreateFlow() {
               <p className="text-sm text-muted">
                 Objective criteria are decided by contract code from what a source returns. Semantic criteria are read
                 by the validator panel. Mark a criterion required unless a failure should only reduce the settlement.
+                You choose the source that decides each one in the next step, once the sources are named.
               </p>
               {visible.criteria ? <p className="text-sm text-not-fulfilled">{visible.criteria}</p> : null}
               <ul className="grid gap-4">
-                {draft.criteria.map((c, i) => (
-                  <li key={i} className="grid gap-3 border border-rule p-4">
-                    <div className="flex flex-wrap items-center gap-3">
-                      <span className="figure text-xs text-amber-deep">C{i + 1}</span>
-                      <select className="border border-rule bg-paper px-2 py-1 text-sm" value={c.kind}
-                              onChange={(e) => setCriterion(i, { kind: e.target.value })}>
-                        <option value="OBJECTIVE">Objective</option>
-                        <option value="SEMANTIC">Semantic</option>
-                      </select>
-                      <label className="flex items-center gap-2 text-sm">
-                        <input type="checkbox" checked={c.required} onChange={(e) => setCriterion(i, { required: e.target.checked })} />
-                        Required
-                      </label>
-                      <button type="button" className="ml-auto text-xs underline underline-offset-4"
-                              onClick={() => set({ criteria: draft.criteria.filter((_, j) => j !== i) })}>
-                        Remove
-                      </button>
-                    </div>
-                    <input className={field} value={c.text} placeholder="What must be true"
-                           aria-invalid={!!visible[`criteria.${i}.text`]}
-                           onChange={(e) => setCriterion(i, { text: e.target.value })} />
-                    {visible[`criteria.${i}.text`] ? (
-                      <span className="text-xs text-not-fulfilled">{visible[`criteria.${i}.text`]}</span>
-                    ) : null}
+                {draft.criteria.map((c, i) => {
+                  const cid = `C${i + 1}`;
+                  return (
+                    <li key={i} className="grid gap-3 border border-rule p-4">
+                      <div className="flex flex-wrap items-center gap-3">
+                        <span className="figure text-xs text-amber-deep">{cid}</span>
+                        <select className="border border-edge bg-paper px-2 py-1 text-sm" value={c.kind}
+                                aria-label={`How ${cid} is decided`}
+                                onChange={(e) => setCriterion(i, { kind: e.target.value })}>
+                          <option value="OBJECTIVE">Objective</option>
+                          <option value="SEMANTIC">Semantic</option>
+                        </select>
+                        <label className="flex items-center gap-2 text-sm">
+                          <input type="checkbox" checked={c.required} onChange={(e) => setCriterion(i, { required: e.target.checked })} />
+                          Required
+                        </label>
+                        <button type="button" className="ml-auto text-xs underline underline-offset-4"
+                                aria-label={`Remove ${cid}`}
+                                onClick={() => set({ criteria: draft.criteria.filter((_, j) => j !== i) })}>
+                          Remove
+                        </button>
+                      </div>
+                      <input className={field} value={c.text} placeholder="What must be true"
+                             aria-label={`What must be true for ${cid}`}
+                             aria-invalid={!!visible[`criteria.${i}.text`]}
+                             onChange={(e) => setCriterion(i, { text: e.target.value })} />
+                      {visible[`criteria.${i}.text`] ? (
+                        <span className="text-xs text-not-fulfilled">{visible[`criteria.${i}.text`]}</span>
+                      ) : null}
 
-                    {c.kind === "OBJECTIVE" ? (
-                      <div className="grid gap-2 sm:grid-cols-4">
-                        <select className="border border-rule bg-paper px-2 py-2 text-sm" value={c.source_id ?? ""}
-                                onChange={(e) => setCriterion(i, { source_id: e.target.value })}>
-                          <option value="">Source…</option>
-                          {sourceIds.map((id) => <option key={id} value={id}>{id}</option>)}
-                        </select>
-                        <select className="border border-rule bg-paper px-2 py-2 text-sm" value={c.op ?? ""}
-                                onChange={(e) => setCriterion(i, { op: e.target.value })}>
-                          <option value="">Rule…</option>
-                          {OBJECTIVE_OPS.map((op) => <option key={op} value={op}>{op.toLowerCase().replace(/_/g, " ")}</option>)}
-                        </select>
-                        <input className={field} value={c.field ?? ""} placeholder="JSON field"
-                               onChange={(e) => setCriterion(i, { field: e.target.value })} />
-                        <input className={field} value={c.expected ?? ""} placeholder="Expected value"
-                               onChange={(e) => setCriterion(i, { expected: e.target.value })} />
-                        {["source_id", "op", "field", "expected"].map((k) =>
-                          visible[`criteria.${i}.${k}`] ? (
-                            <span key={k} className="text-xs text-not-fulfilled sm:col-span-4">{visible[`criteria.${i}.${k}`]}</span>
-                          ) : null,
-                        )}
-                      </div>
-                    ) : (
-                      <div className="grid gap-1.5">
-                        <span className="label">May be judged from</span>
-                        <div className="flex flex-wrap gap-3">
-                          {sourceIds.length === 0 ? <span className="text-xs text-muted">Add an evidence source first.</span> : null}
-                          {sourceIds.map((id) => (
-                            <label key={id} className="flex items-center gap-1.5 text-sm">
-                              <input
-                                type="checkbox"
-                                checked={(c.source_ids ?? []).includes(id)}
-                                onChange={(e) =>
-                                  setCriterion(i, {
-                                    source_ids: e.target.checked
-                                      ? [...(c.source_ids ?? []), id]
-                                      : (c.source_ids ?? []).filter((x) => x !== id),
-                                  })
-                                }
-                              />
-                              {id}
-                            </label>
-                          ))}
+                      {c.kind === "OBJECTIVE" ? (
+                        <div className="grid gap-2 sm:grid-cols-3">
+                          <select className="border border-edge bg-paper px-2 py-2 text-sm" value={c.op ?? ""}
+                                  aria-label={`Rule for ${cid}`} aria-invalid={!!visible[`criteria.${i}.op`]}
+                                  onChange={(e) => setCriterion(i, { op: e.target.value })}>
+                            <option value="">Rule…</option>
+                            {OBJECTIVE_OPS.map((op) => <option key={op} value={op}>{op.toLowerCase().replace(/_/g, " ")}</option>)}
+                          </select>
+                          <input className={field} value={c.field ?? ""} placeholder="JSON field"
+                                 aria-label={`JSON field for ${cid}`} aria-invalid={!!visible[`criteria.${i}.field`]}
+                                 onChange={(e) => setCriterion(i, { field: e.target.value })} />
+                          <input className={field} value={c.expected ?? ""} placeholder="Expected value"
+                                 aria-label={`Expected value for ${cid}`} aria-invalid={!!visible[`criteria.${i}.expected`]}
+                                 onChange={(e) => setCriterion(i, { expected: e.target.value })} />
+                          {["op", "field", "expected"].map((k) =>
+                            visible[`criteria.${i}.${k}`] ? (
+                              <span key={k} className="text-xs text-not-fulfilled sm:col-span-3">{visible[`criteria.${i}.${k}`]}</span>
+                            ) : null,
+                          )}
                         </div>
-                        {visible[`criteria.${i}.source_ids`] ? (
-                          <span className="text-xs text-not-fulfilled">{visible[`criteria.${i}.source_ids`]}</span>
-                        ) : null}
-                      </div>
-                    )}
-                  </li>
-                ))}
+                      ) : null}
+                    </li>
+                  );
+                })}
               </ul>
               <button
                 type="button"
@@ -289,28 +289,36 @@ export function CreateFlow() {
               </p>
               {visible.sources ? <p className="text-sm text-not-fulfilled">{visible.sources}</p> : null}
               <ul className="grid gap-3">
-                {draft.sources.map((s, i) => (
-                  <li key={i} className="grid gap-2 border border-rule p-4 sm:grid-cols-[110px_minmax(0,1fr)_auto]">
-                    <select className="border border-rule bg-paper px-2 py-2 text-sm" value={s.source_type}
-                            onChange={(e) => set({ sources: draft.sources.map((x, j) => (j === i ? { ...x, source_type: e.target.value } : x)) })}>
-                      {SOURCE_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
-                    </select>
-                    <div className="grid gap-2">
-                      <input className={`${field} font-mono`} value={s.location} placeholder="https://…"
-                             aria-invalid={!!visible[`sources.${i}.location`]}
-                             onChange={(e) => set({ sources: draft.sources.map((x, j) => (j === i ? { ...x, location: e.target.value } : x)) })} />
-                      <input className={field} value={s.description} placeholder="What this source is"
-                             onChange={(e) => set({ sources: draft.sources.map((x, j) => (j === i ? { ...x, description: e.target.value } : x)) })} />
-                      {visible[`sources.${i}.location`] ? (
-                        <span className="text-xs text-not-fulfilled">{visible[`sources.${i}.location`]}</span>
-                      ) : null}
-                    </div>
-                    <button type="button" className="justify-self-start text-xs underline underline-offset-4"
-                            onClick={() => set({ sources: draft.sources.filter((_, j) => j !== i) })}>
-                      Remove
-                    </button>
-                  </li>
-                ))}
+                {draft.sources.map((s, i) => {
+                  const sid = sourceIds[i]!;
+                  return (
+                    <li key={i} className="grid gap-2 border border-rule p-4 sm:grid-cols-[auto_110px_minmax(0,1fr)_auto]">
+                      <span className="figure pt-2 text-xs text-amber-deep">{sid}</span>
+                      <select className="border border-edge bg-paper px-2 py-2 text-sm" value={s.source_type}
+                              aria-label={`Type of source ${sid}`}
+                              onChange={(e) => set({ sources: draft.sources.map((x, j) => (j === i ? { ...x, source_type: e.target.value } : x)) })}>
+                        {SOURCE_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
+                      </select>
+                      <div className="grid gap-2">
+                        <input className={`${field} font-mono`} value={s.location} placeholder="https://…"
+                               aria-label={`Address of source ${sid}`}
+                               aria-invalid={!!visible[`sources.${i}.location`]}
+                               onChange={(e) => set({ sources: draft.sources.map((x, j) => (j === i ? { ...x, location: e.target.value } : x)) })} />
+                        <input className={field} value={s.description} placeholder="What this source is"
+                               aria-label={`What source ${sid} is`}
+                               onChange={(e) => set({ sources: draft.sources.map((x, j) => (j === i ? { ...x, description: e.target.value } : x)) })} />
+                        {visible[`sources.${i}.location`] ? (
+                          <span className="text-xs text-not-fulfilled">{visible[`sources.${i}.location`]}</span>
+                        ) : null}
+                      </div>
+                      <button type="button" className="justify-self-start text-xs underline underline-offset-4"
+                              aria-label={`Remove source ${sid}`}
+                              onClick={() => set({ sources: draft.sources.filter((_, j) => j !== i) })}>
+                        Remove
+                      </button>
+                    </li>
+                  );
+                })}
               </ul>
               <button
                 type="button"
@@ -319,6 +327,62 @@ export function CreateFlow() {
               >
                 Add evidence source
               </button>
+
+              {draft.criteria.length > 0 ? (
+                <fieldset className="grid gap-3 border-t border-rule pt-5">
+                  <legend className="text-sm font-medium">Which source decides each criterion</legend>
+                  <p className="text-xs text-muted">
+                    An objective criterion reads one source. A semantic criterion may be judged only from the sources
+                    ticked for it; a finding that cites any other is set aside.
+                  </p>
+                  {sourceIds.length === 0 ? (
+                    <p className="text-sm text-muted">Add a source above, then choose one for each criterion here.</p>
+                  ) : (
+                    <ul className="grid gap-3">
+                      {draft.criteria.map((c, i) => {
+                        const cid = `C${i + 1}`;
+                        const err = visible[`criteria.${i}.source_id`] ?? visible[`criteria.${i}.source_ids`];
+                        return (
+                          <li key={i} className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
+                            <span className="text-sm">
+                              <span className="figure mr-2 text-xs text-amber-deep">{cid}</span>
+                              {c.text || <span className="text-muted">Not described yet</span>}
+                            </span>
+                            {c.kind === "OBJECTIVE" ? (
+                              <select className="border border-edge bg-paper px-2 py-1.5 text-sm" value={c.source_id ?? ""}
+                                      aria-label={`Source that decides ${cid}`} aria-invalid={!!err}
+                                      onChange={(e) => setCriterion(i, { source_id: e.target.value })}>
+                                <option value="">Choose a source</option>
+                                {sourceIds.map((id) => <option key={id} value={id}>{id}</option>)}
+                              </select>
+                            ) : (
+                              <div className="flex flex-wrap gap-3" role="group" aria-label={`Sources ${cid} may be judged from`}>
+                                {sourceIds.map((id) => (
+                                  <label key={id} className="flex items-center gap-1.5 text-sm">
+                                    <input
+                                      type="checkbox"
+                                      checked={(c.source_ids ?? []).includes(id)}
+                                      onChange={(e) =>
+                                        setCriterion(i, {
+                                          source_ids: e.target.checked
+                                            ? [...(c.source_ids ?? []), id]
+                                            : (c.source_ids ?? []).filter((x) => x !== id),
+                                        })
+                                      }
+                                    />
+                                    {id}
+                                  </label>
+                                ))}
+                              </div>
+                            )}
+                            {err ? <span className="text-xs text-not-fulfilled sm:col-span-2">{err}</span> : null}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </fieldset>
+              ) : null}
             </div>
           ) : null}
 
@@ -384,7 +448,8 @@ export function CreateFlow() {
                               min={0}
                               max={100}
                               step="0.01"
-                              className="w-24 border border-rule bg-paper px-2 py-1 font-mono text-sm"
+                              aria-label={`Per cent to the responsible party if ${v.replace(/_/g, " ").toLowerCase()}`}
+                              className="w-24 border border-edge bg-paper px-2 py-1 font-mono text-sm"
                               value={(draft.consequences[v] ?? 0) / 100}
                               onChange={(e) =>
                                 set({ consequences: { ...draft.consequences, [v]: Math.round(Number(e.target.value) * 100) } })

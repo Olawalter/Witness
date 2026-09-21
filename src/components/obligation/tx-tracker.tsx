@@ -1,6 +1,6 @@
 "use client";
 
-import { STAGES, type Stage, type TxState } from "@/lib/genlayer/tx";
+import { rungsFor, type Rung, type TxState } from "@/lib/genlayer/tx";
 import { configResult } from "@/lib/genlayer/config";
 import { shortHash } from "@/lib/formatting/present";
 
@@ -11,41 +11,32 @@ import { shortHash } from "@/lib/formatting/present";
  * final.
  */
 
-const LABEL: Record<(typeof STAGES)[number], string> = {
-  READY: "Ready",
+const LABEL: Record<Rung["stage"], string> = {
   SIGNATURE_REQUIRED: "Signature required",
   SUBMITTED: "Submitted",
   PENDING: "Pending consensus",
   DECIDED: "Decided and recorded",
-  FINALIZED: "Finalized",
+  FINALIZED: "Final on GenLayer",
 };
 
-const HINT: Record<(typeof STAGES)[number], string> = {
-  READY: "",
+/** What the current rung is waiting on. Never phrased as done: a rung is
+ * ticked, not described, once it has happened. */
+const HINT: Record<Rung["stage"], string> = {
   SIGNATURE_REQUIRED: "Confirm the transaction in your wallet.",
-  SUBMITTED: "GenLayer has the transaction.",
+  SUBMITTED: "Waiting for GenLayer to receive it.",
   PENDING: "Validators are executing it and voting. This can take minutes.",
-  DECIDED: "Accepted, and the contract's own state shows it. Not final yet.",
-  FINALIZED: "The appeal window has closed.",
+  DECIDED: "Checking the contract's own state.",
+  FINALIZED: "Accepted and recorded. The transaction becomes final when its appeal window closes.",
 };
-
-function positionOf(state: TxState): { index: number; failedAt: number | null } {
-  const reached = STAGES.indexOf(state.reached);
-  if (state.stage === "FAILED") return { index: reached, failedAt: Math.min(reached + 1, STAGES.length - 1) };
-  return { index: STAGES.indexOf(state.stage as (typeof STAGES)[number]), failedAt: null };
-}
 
 export function TxTracker({ state, done }: { state: TxState; done?: string }) {
   if (state.stage === "READY") return null;
-  const { index, failedAt } = positionOf(state);
   const explorer = configResult.ok ? configResult.config.explorer : "";
 
   return (
     <div className="grid gap-3 border border-rule bg-surface p-4" aria-live="polite">
       <ol className="grid gap-1.5 text-sm">
-        {STAGES.slice(1).map((stage) => {
-          const i = STAGES.indexOf(stage);
-          const state_ = failedAt === i ? "failed" : i <= index ? "done" : i === index + 1 ? "current" : "todo";
+        {rungsFor(state).map(({ stage, state: state_ }) => {
           return (
             <li key={stage} className="flex items-baseline gap-2.5">
               <span
@@ -57,7 +48,10 @@ export function TxTracker({ state, done }: { state: TxState; done?: string }) {
                 {state_ === "failed" ? "✕" : state_ === "done" ? "✓" : state_ === "current" ? "•" : "·"}
               </span>
               <span className={state_ === "todo" ? "text-muted" : state_ === "failed" ? "text-not-fulfilled" : ""}>
-                {LABEL[stage as Stage as (typeof STAGES)[number]]}
+                {LABEL[stage]}
+                <span className="sr-only">
+                  {state_ === "done" ? ", done" : state_ === "current" ? ", in progress" : state_ === "failed" ? ", failed" : ", not yet"}
+                </span>
                 {state_ === "current" ? <span className="block text-xs text-muted">{HINT[stage]}</span> : null}
               </span>
             </li>

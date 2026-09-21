@@ -32,6 +32,28 @@ export type TxState = {
 
 export const initialTx: TxState = { stage: "READY", reached: "READY" };
 
+/**
+ * Two kinds of stage share one list. SIGNATURE_REQUIRED and PENDING mean
+ * "waiting here": the wallet has not signed, the validators have not decided.
+ * SUBMITTED, DECIDED and FINALIZED mean "reached". A tracker that read every
+ * stage as reached would tick consensus while validators were still voting.
+ */
+const WAITING: ReadonlySet<string> = new Set(["SIGNATURE_REQUIRED", "PENDING"]);
+
+export type Rung = { stage: Exclude<(typeof STAGES)[number], "READY">; state: "done" | "current" | "todo" | "failed" };
+
+/** Each step of a write as a tracker should show it: ticked only once observed. */
+export function rungsFor(s: TxState): Rung[] {
+  const at = s.stage === "FAILED" ? s.reached : s.stage;
+  const index = STAGES.indexOf(at);
+  const current = WAITING.has(at) ? index : index + 1;
+  return STAGES.slice(1).map((stage) => {
+    const i = STAGES.indexOf(stage);
+    const state = i < current ? "done" : i > current ? "todo" : s.stage === "FAILED" ? "failed" : "current";
+    return { stage: stage as Rung["stage"], state };
+  });
+}
+
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 const PENDING = new Set(["PENDING", "ACTIVATED", "PROPOSING", "COMMITTING", "REVEALING"]);

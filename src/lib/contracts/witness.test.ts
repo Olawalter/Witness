@@ -7,7 +7,7 @@ import type { Obligation } from "@/types/witness";
 
 /**
  * The schema is the one GenLayer derived from the deployment of record
- * (scripts/inspect.py --write-deployment). A contract call is an untyped
+ * (scripts/verify_deployment.py --write-deployment). A contract call is an untyped
  * array, so nothing else catches a wrong name, a wrong arity or value sent to
  * a method that cannot take it.
  */

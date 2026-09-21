@@ -16,7 +16,8 @@ operator, no server-side signer.
 | Live suite | 17 of 17 on StudioNet — [`docs/live-e2e.json`](docs/live-e2e.json), [`docs/e2e-verification.md`](docs/e2e-verification.md) |
 | Direct suite | 131 tests in GenVM direct mode |
 | Mutation sweep | 49 of 53 killed, 4 documented equivalent, 0 undocumented |
-| Frontend | 36 tests, strict TypeScript, Next.js App Router |
+| In-app run | one obligation through all five writes in the app itself, FULFILLED and settled — [`docs/app-e2e.json`](docs/app-e2e.json) |
+| Frontend | 45 tests, strict TypeScript, Next.js App Router |
 | Frontend deployment | not deployed yet (see [Frontend setup](#frontend-setup)) |
 
 ---
@@ -110,7 +111,7 @@ down and the recipient takes exactly the rest, so the two always sum to the bond
 
 ## 6. Evidence model
 
-A mandate names up to four sources, each `WEB`, `API`, `GITHUB` or `DOCUMENT`, with an https
+An obligation names up to four sources, each `WEB`, `API`, `GITHUB` or `DOCUMENT`, with an https
 location and a description. They are fixed at creation and cannot be added to afterwards. Pages are
 fetched fresh inside the verification transaction by every node and never stored; what the record
 keeps is what the panel agreed they showed, with each source's availability: `OK`, `MISSING` (404 or
@@ -227,6 +228,12 @@ not hold it. The remaining four are guards no public call can reach, kept as def
 listed in `scripts/mutate.py` with the reason. The script exits non-zero only on a survivor that is
 not so documented.
 
+**The in-app run.** `python scripts/e2e_accounts.py` makes and funds throwaway accounts;
+[`tests/e2e/test-wallet.js`](tests/e2e/test-wallet.js), pasted into a page of the running app,
+announces them as EIP-6963 wallets; the lifecycle is then done by hand in the app; and
+`python scripts/record_app_e2e.py <obligation> <tx…>` proves each transaction from the chain and
+writes [`docs/app-e2e.json`](docs/app-e2e.json).
+
 `gltest tests/integration -v -s` collects the same live tests. Direct tests mock the web and the
 model — test fixtures, and only there — to prove what the contract decides from a given retrieval;
 the live suite uses real validators, real pages and real models.
@@ -235,11 +242,11 @@ the live suite uses real validators, real pages and real models.
 
 ```bash
 python scripts/deploy.py                        # throwaway faucet-funded deployer, waits for FINALIZED
-python scripts/inspect.py <address> --write-deployment
+python scripts/verify_deployment.py <address> --write-deployment
 ```
 
 `deploy.py` deploys the bytes git holds, then reads the code back from the chain and requires it to
-be byte-identical before reporting success. `inspect.py` re-verifies any deployment and writes
+be byte-identical before reporting success. `verify_deployment.py` re-verifies any deployment and writes
 [`docs/deployment.json`](docs/deployment.json) plus the schema fixture the frontend's tests pin
 against. Recorded for this deployment: network, address, transaction, schema, protocol version,
 runner, code hash and the toolchain versions.
@@ -276,8 +283,23 @@ src/lib/wallet/       EIP-6963 discovery and the connected provider
 ```
 
 The transaction state machine is explicit: `SIGNATURE_REQUIRED → SUBMITTED → PENDING → DECIDED →
-FINALIZED`, with `FAILED` carrying the contract's own refusal sentence. A wallet returning a hash is
-never shown as success.
+FINALIZED`, with `FAILED` carrying the contract's own refusal sentence. Two of those stages mean
+*waiting here* (the wallet has not signed, the validators have not decided) and three mean
+*reached*; `rungsFor` turns that into what the tracker shows, so a step is ticked only once it has
+been observed. A wallet returning a hash is never shown as success, and an accepted transaction is
+never shown as final. `src/lib/genlayer/tx.test.ts` pins both.
+
+### Accessibility
+
+Audited in the browser on every page and every step of the create flow: every control has an
+accessible name (visible labels, or `aria-label` naming the criterion or source it belongs to), one
+`h1` per page with no skipped heading levels, a skip link, landmarks, and no horizontal scroll at
+375 px. Colour contrast was computed for every text token on every surface it is used on and meets
+WCAG AA; form-control borders meet 3:1. Focus is always visible (the global outline is never
+removed), moves to the new step's heading when the create flow advances, and the transaction tracker
+and step list announce each step's state in words rather than by symbol or colour. Every control is
+a native button, link or input, with no custom key handling. Not done: a pass with a screen reader
+in a person's hands.
 
 ### Frontend setup
 
@@ -298,8 +320,8 @@ figures, and the commands a reviewer runs to reconstruct all of it from the chai
 
 - **The sources decide.** WITNESS rules on what the permitted sources say, not on what is true.
 - **StudioNet only.** A development network.
-- **A human wallet run is outstanding.** Every live transaction was signed by the test suite with
-  throwaway keys.
+- **A human wallet run is outstanding.** The live suite signs from Python; the in-app run drove the
+  app's own interface end to end, but signed with a test wallet holding throwaway keys.
 - **PARTIALLY_FULFILLED and recovery are proven in the direct suite**, not live: one needs a
   non-critical criterion failing on a real source at a chosen moment, the other a seven-day wait.
 - **Objective rules need JSON.** Against an HTML page only `SOURCE_AVAILABLE` applies.

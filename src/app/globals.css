@@ -16,12 +16,13 @@
   --color-paper: #f7f6f2;
   --color-surface: #eeede8;
   --color-rule: #ddd9cf;
+  --color-edge: #918566;           /* form-control borders: 3:1 on paper and surface */
   --color-muted: #6b6659;
   --color-amber: #d99a28;
-  --color-amber-deep: #a9761b;
+  --color-amber-deep: #8c6216;
   --color-fulfilled: #2f6f4f;
   --color-not-fulfilled: #a33a2a;
-  --color-partial: #9a6b12;
+  --color-partial: #9a4f14;
   --color-insufficient: #5b5f6b;
 
   --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;

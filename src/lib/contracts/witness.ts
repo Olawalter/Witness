@@ -20,7 +20,7 @@ import {
 /**
  * The WITNESS contract as GenLayer describes it. Every method name and
  * parameter below was read from `gen_getContractSchema` for the deployed
- * contract (scripts/inspect.py writes it to docs/deployment.json and
+ * contract (scripts/verify_deployment.py writes it to docs/deployment.json and
  * src/lib/contracts/witness-schema.json); nothing here is guessed from the
  * Python source. Every view is checked before the interface sees it.
  */

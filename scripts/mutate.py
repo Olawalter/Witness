@@ -27,7 +27,7 @@ MUTANTS = [
     ("recipient may be the party", 'if str(party).lower() == str(recipient).lower():', 'if False:'),
     ("deadline may be in the past", 'if due < now + MIN_LEAD_SECONDS:', 'if False:'),
     ("bond floor removed", 'if bond < MIN_BOND:', 'if False:'),
-    ("a mandate needs no required criterion", 'if not any(c["required"] for c in criteria):', 'if False:'),
+    ("an obligation needs no required criterion", 'if not any(c["required"] for c in criteria):', 'if False:'),
     ("duplicate sources allowed", 'if norm in seen:', 'if False:'),
     ("github host unchecked", 'if stype == "GITHUB" and host not in GITHUB_HOSTS:', 'if False:'),
     ("consequences may exceed the bond", 'if bps < 0 or bps > BPS:', 'if False:'),

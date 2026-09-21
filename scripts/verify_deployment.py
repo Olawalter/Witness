@@ -1,6 +1,6 @@
 """Inspect a deployed WITNESS contract: code, schema and on-chain records.
 
-    python scripts/inspect.py <address> [--revision HEAD] [--obligation 1] [--write-deployment]
+    python scripts/verify_deployment.py <address> [--revision HEAD] [--obligation 1] [--write-deployment]
 
 Everything printed is read from GenLayer StudioNet, never from this repository
 or the frontend:
@@ -19,17 +19,13 @@ docs/deployment.json and the schema in src/lib/contracts/witness-schema.json.
 """
 import pathlib
 import sys
-
-_HERE = pathlib.Path(__file__).resolve().parent
-sys.path[:] = [p for p in sys.path if pathlib.Path(p or ".").resolve() != _HERE]
-
-import argparse  # noqa: E402
-import base64  # noqa: E402
-import hashlib  # noqa: E402
-import json  # noqa: E402
-import subprocess  # noqa: E402
-import time  # noqa: E402
-import urllib.request  # noqa: E402
+import argparse
+import base64
+import hashlib
+import json
+import subprocess
+import time
+import urllib.request
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 RPC = "https://studio.genlayer.com/api"
