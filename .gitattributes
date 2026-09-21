@@ -1,0 +1,2 @@
+# The contract is byte-verified against the deployment: it must never gain CRLF.
+* text=auto eol=lf

@@ -1,0 +1,11 @@
+[project]
+name = "witness"
+version = "1.0.0"
+description = "Bonded real-world obligations verified by GenLayer consensus"
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+testpaths = ["tests/direct"]
+markers = [
+    "integration: runs against a GenLayer network (tests/integration)",
+]
