@@ -1,26 +1,9 @@
 {
-  "network": "GenLayer StudioNet",
-  "chain_id": 61999,
-  "rpc": "https://studio.genlayer.com/api",
-  "explorer": "https://explorer-studio.genlayer.com/address/0x60191e5A0Cb612d62241EE281cd0fcEEB69c2811",
-  "contract_address": "0x60191e5A0Cb612d62241EE281cd0fcEEB69c2811",
-  "protocol_version": "WITNESS-1.0.0",
-  "source": "contracts/Witness.py",
-  "source_revision": "7f5761656014988682749f891b84532b6c734f1a",
-  "source_sha256": "f895ec5184a2a583e299700e5a4b7fb4ff700ed0a2c9b366258794f1293cf32a",
-  "code_bytes": 54886,
-  "onchain_sha256": "f895ec5184a2a583e299700e5a4b7fb4ff700ed0a2c9b366258794f1293cf32a",
-  "byte_identical": true,
-  "verified_at": "2026-09-21T00:39:54Z",
-  "genvm_runner": "py-genlayer:1jb45aa8ynh2a9c9xn3b7qqh8sm5q93hwfp7jqmwsfhh8jpz09h6",
-  "toolchain": {
-    "genlayer_cli": "0.39.2",
-    "genlayer_py": "0.16.3",
-    "genlayer_test": "0.29.2",
-    "genvm_linter": "0.11.0",
-    "genlayer_js": "1.1.8"
+  "ctor": {
+    "params": [],
+    "kwparams": {}
   },
-  "schema_methods": {
+  "methods": {
     "cancel_obligation": {
       "params": [
         [
@@ -29,8 +12,8 @@
         ]
       ],
       "kwparams": {},
-      "ret": "null",
       "readonly": false,
+      "ret": "null",
       "payable": false
     },
     "create_obligation": {
@@ -61,8 +44,8 @@
         ]
       ],
       "kwparams": {},
-      "ret": "string",
       "readonly": false,
+      "ret": "string",
       "payable": false
     },
     "finalize_verdict": {
@@ -73,8 +56,8 @@
         ]
       ],
       "kwparams": {},
-      "ret": "null",
       "readonly": false,
+      "ret": "null",
       "payable": false
     },
     "fund_obligation": {
@@ -85,8 +68,8 @@
         ]
       ],
       "kwparams": {},
-      "ret": "string",
       "readonly": false,
+      "ret": "string",
       "payable": true
     },
     "get_obligation": {
@@ -97,9 +80,8 @@
         ]
       ],
       "kwparams": {},
-      "ret": "dict",
       "readonly": true,
-      "payable": null
+      "ret": "dict"
     },
     "get_proof_chain": {
       "params": [
@@ -109,16 +91,14 @@
         ]
       ],
       "kwparams": {},
-      "ret": "dict",
       "readonly": true,
-      "payable": null
+      "ret": "dict"
     },
     "get_protocol_info": {
       "params": [],
       "kwparams": {},
-      "ret": "dict",
       "readonly": true,
-      "payable": null
+      "ret": "dict"
     },
     "get_returned_deposits": {
       "params": [
@@ -132,9 +112,8 @@
         ]
       ],
       "kwparams": {},
-      "ret": "dict",
       "readonly": true,
-      "payable": null
+      "ret": "dict"
     },
     "get_terms": {
       "params": [
@@ -144,9 +123,8 @@
         ]
       ],
       "kwparams": {},
-      "ret": "dict",
       "readonly": true,
-      "payable": null
+      "ret": "dict"
     },
     "get_verification": {
       "params": [
@@ -156,9 +134,8 @@
         ]
       ],
       "kwparams": {},
-      "ret": "dict",
       "readonly": true,
-      "payable": null
+      "ret": "dict"
     },
     "list_by_creator": {
       "params": [
@@ -176,9 +153,8 @@
         ]
       ],
       "kwparams": {},
-      "ret": "dict",
       "readonly": true,
-      "payable": null
+      "ret": "dict"
     },
     "list_by_responsible": {
       "params": [
@@ -196,9 +172,8 @@
         ]
       ],
       "kwparams": {},
-      "ret": "dict",
       "readonly": true,
-      "payable": null
+      "ret": "dict"
     },
     "list_obligations": {
       "params": [
@@ -212,9 +187,8 @@
         ]
       ],
       "kwparams": {},
-      "ret": "dict",
       "readonly": true,
-      "payable": null
+      "ret": "dict"
     },
     "recover_obligation": {
       "params": [
@@ -224,8 +198,8 @@
         ]
       ],
       "kwparams": {},
-      "ret": "null",
       "readonly": false,
+      "ret": "null",
       "payable": false
     },
     "settle_obligation": {
@@ -236,8 +210,8 @@
         ]
       ],
       "kwparams": {},
-      "ret": "null",
       "readonly": false,
+      "ret": "null",
       "payable": false
     },
     "verify_obligation": {
@@ -248,8 +222,8 @@
         ]
       ],
       "kwparams": {},
-      "ret": "string",
       "readonly": false,
+      "ret": "string",
       "payable": false
     }
   }

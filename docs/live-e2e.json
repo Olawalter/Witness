@@ -1,0 +1,2111 @@
+{
+  "network": "GenLayer StudioNet",
+  "chain_id": 61999,
+  "rpc": "https://studio.genlayer.com/api",
+  "finality_window_seconds": 30,
+  "contract_finality_delay_seconds": 300,
+  "accounts": {
+    "creator": "0xAC0ae04005AE626c75e61372482F7C4d47Be7235",
+    "responsible_party": "0x520Ec30Ff16A5b89B24C8f736b7092Ac8B3A7e9B",
+    "consequence_recipient": "0x2A13f54F4927F89Da33Be3b978c6Dd846272FF1d",
+    "stranger": "0x986d76f70B60cA9426361f9437a5f7b3445956d0"
+  },
+  "started_at": "2026-09-21T00:20:38Z",
+  "transactions": [
+    {
+      "step": "create with a past deadline (refused)",
+      "obligation": null,
+      "function": "create_obligation",
+      "caller": "creator",
+      "tx": "0x67f027b3d6c1becb032ebf8af70f9007737e8e741da86937eecd5c967b35d9bc",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "ERROR",
+      "refused": true,
+      "refusal": "[EXPECTED] deadline must be at least 120 seconds after the transaction time 1789950078"
+    },
+    {
+      "step": "create_obligation [fulfilled]",
+      "obligation": "fulfilled",
+      "function": "create_obligation",
+      "caller": "creator",
+      "tx": "0xb23dfc2018b296d3451f77c11ae8709a5841405a6836eda2940d5871d05c564c",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "refused": false
+    },
+    {
+      "step": "create_obligation [not_fulfilled]",
+      "obligation": "not_fulfilled",
+      "function": "create_obligation",
+      "caller": "creator",
+      "tx": "0x1f287e52b50b6ea06bc0be6600519ccfead1b04fef4ca55468c0b6217b638922",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "refused": false
+    },
+    {
+      "step": "create_obligation [insufficient]",
+      "obligation": "insufficient",
+      "function": "create_obligation",
+      "caller": "creator",
+      "tx": "0xcb8642a8a84600dbee69d34515f5df10f8671418a15ab16a2ab82fb583d40cda",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "refused": false
+    },
+    {
+      "step": "create_obligation [injection]",
+      "obligation": "injection",
+      "function": "create_obligation",
+      "caller": "creator",
+      "tx": "0x93dcdbb70c24972299be884779381acaa9f90a8d3536226a89d1dc2e869d94fa",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "refused": false
+    },
+    {
+      "step": "fund 1 atto short (returned)",
+      "obligation": "fulfilled",
+      "function": "fund_obligation",
+      "caller": "responsible_party",
+      "tx": "0x5db7f9e4900e82799f1425b5375d4dbfa6d442c42c729d7aace4430073a46e28",
+      "value": 9999999999999999,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "refused": false
+    },
+    {
+      "step": "fund by a stranger (returned)",
+      "obligation": "fulfilled",
+      "function": "fund_obligation",
+      "caller": "stranger",
+      "tx": "0x3929919674b04ef4020fd0798b748c6d91ae4b7b1e31a61848f17921907dd24b",
+      "value": 10000000000000000,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "refused": false
+    },
+    {
+      "step": "fund with no value (refused)",
+      "obligation": "fulfilled",
+      "function": "fund_obligation",
+      "caller": "responsible_party",
+      "tx": "0x75aadfe0f36b474fc3336c256ede1b386ff761883ec94b89ddfc8ee662942d97",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "ERROR",
+      "refused": true,
+      "refusal": "[EXPECTED] the bond must be exactly 10000000000000000 atto; 0 was sent"
+    },
+    {
+      "step": "fund_obligation [fulfilled]",
+      "obligation": "fulfilled",
+      "function": "fund_obligation",
+      "caller": "responsible_party",
+      "tx": "0xdb3bfd78fc1886b3d84da3ea294fd40f501ef11d3c2bfec4f7c85cf83fe2039e",
+      "value": 10000000000000000,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "refused": false
+    },
+    {
+      "step": "fund_obligation [not_fulfilled]",
+      "obligation": "not_fulfilled",
+      "function": "fund_obligation",
+      "caller": "responsible_party",
+      "tx": "0x3dc9bde672e5624a41f069fd836ed0dc16b72d3f9c231e515e562fabdcf7957e",
+      "value": 10000000000000000,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "refused": false
+    },
+    {
+      "step": "fund_obligation [insufficient]",
+      "obligation": "insufficient",
+      "function": "fund_obligation",
+      "caller": "responsible_party",
+      "tx": "0x604b10be36a2f7d424989da62343db8644e186db58bc274fcbc12f17d1db8984",
+      "value": 10000000000000000,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "refused": false
+    },
+    {
+      "step": "fund_obligation [injection]",
+      "obligation": "injection",
+      "function": "fund_obligation",
+      "caller": "responsible_party",
+      "tx": "0xa49f8dd18b79b554f70389f1cc0c22020c27704a028b5bb6d292f5bab68af503",
+      "value": 10000000000000000,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "refused": false
+    },
+    {
+      "step": "verify before the deadline (refused)",
+      "obligation": "fulfilled",
+      "function": "verify_obligation",
+      "caller": "stranger",
+      "tx": "0x2ea3a770cbe1c2eb58674f2322c0eeeb11e92f2211926babdbd0451145f48fb5",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "ERROR",
+      "refused": true,
+      "refusal": "[EXPECTED] verification cannot start yet: the deadline is 1789950302, the transaction time is 1789950277"
+    },
+    {
+      "step": "cancel after funding (refused)",
+      "obligation": "fulfilled",
+      "function": "cancel_obligation",
+      "caller": "creator",
+      "tx": "0xed0b35baa05f9af0b4c84e757ab3faf085b8ba65485a1da58e16dba43356368a",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "ERROR",
+      "refused": true,
+      "refusal": "[EXPECTED] only an obligation awaiting its bond can be cancelled; it is ACTIVE"
+    },
+    {
+      "step": "verify_obligation [fulfilled]",
+      "obligation": "fulfilled",
+      "function": "verify_obligation",
+      "caller": "stranger",
+      "tx": "0xe53ff3870422a93ea09824b25e531daae67d19e1dc2f24acb81ea50a84a5da43",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "refused": false
+    },
+    {
+      "step": "verify_obligation [not_fulfilled]",
+      "obligation": "not_fulfilled",
+      "function": "verify_obligation",
+      "caller": "stranger",
+      "tx": "0xc98c6aca0c21041286afddbe485dc5087e555d615255dbd060c10135c52d5b7f",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "refused": false
+    },
+    {
+      "step": "verify_obligation [insufficient]",
+      "obligation": "insufficient",
+      "function": "verify_obligation",
+      "caller": "stranger",
+      "tx": "0x6e8d064ea6467412f3b0c990ccb18af60efa7715669690dcfe3ecd9a6ce5bf1a",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "refused": false
+    },
+    {
+      "step": "verify_obligation [injection]",
+      "obligation": "injection",
+      "function": "verify_obligation",
+      "caller": "stranger",
+      "tx": "0x17cc2a29f1cd404cce4232db6a8c9cf8637d93589b48673042f630bfb8fe5c04",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "refused": false
+    },
+    {
+      "step": "verify a second time (refused)",
+      "obligation": "fulfilled",
+      "function": "verify_obligation",
+      "caller": "stranger",
+      "tx": "0x622b16c80b8a3c349037b28f404c72a6f763a9e83ef6bb0eccb172c51fcaacea",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "ERROR",
+      "refused": true,
+      "refusal": "[EXPECTED] only an active obligation can be verified; it is VERDICT_PROPOSED"
+    },
+    {
+      "step": "finalize before the delay (refused)",
+      "obligation": "fulfilled",
+      "function": "finalize_verdict",
+      "caller": "stranger",
+      "tx": "0xe9e1dc483c6ba64f6f0636ac9917c2bdd59bb5e02abc2fbdaf0226f5a2a65a07",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "ERROR",
+      "refused": true,
+      "refusal": "[EXPECTED] the verdict can be finalized at 1789950636; the transaction time is 1789950447"
+    },
+    {
+      "step": "settle before finalization (refused)",
+      "obligation": "fulfilled",
+      "function": "settle_obligation",
+      "caller": "stranger",
+      "tx": "0x368f1b8b4159cb0b19ac10073f6d2c06fec73957ef59c0266625c4f46b1b36d5",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "ERROR",
+      "refused": true,
+      "refusal": "[EXPECTED] only a finalized verdict can be settled; the obligation is VERDICT_PROPOSED"
+    },
+    {
+      "step": "finalize_verdict [fulfilled]",
+      "obligation": "fulfilled",
+      "function": "finalize_verdict",
+      "caller": "stranger",
+      "tx": "0x1a72409290da201137c0ea7f0b78b959f274d9f06be0425af22299cfe990fb19",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "refused": false
+    },
+    {
+      "step": "finalize_verdict [not_fulfilled]",
+      "obligation": "not_fulfilled",
+      "function": "finalize_verdict",
+      "caller": "stranger",
+      "tx": "0x7defd1fe478e1a14c17ed6f160ff4e23d00025b5b9c53b0b365deba1d6b8f3ed",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "refused": false
+    },
+    {
+      "step": "finalize_verdict [insufficient]",
+      "obligation": "insufficient",
+      "function": "finalize_verdict",
+      "caller": "stranger",
+      "tx": "0x2a75673474852b1824d8e1ed37e87042f7be25d9426ec13e8ae5ed9cd62c4659",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "refused": false
+    },
+    {
+      "step": "finalize_verdict [injection]",
+      "obligation": "injection",
+      "function": "finalize_verdict",
+      "caller": "stranger",
+      "tx": "0x9ae8aa0e18057cb0adf7097e8dbaba2494dbf232bf86f81063c7de39d4cb3897",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "refused": false
+    },
+    {
+      "step": "settle_obligation [fulfilled]",
+      "obligation": "fulfilled",
+      "function": "settle_obligation",
+      "caller": "stranger",
+      "tx": "0xc122d0acef95d6a1c941b3545a85b67a2748259be818457d0f2464641c6be845",
+      "value": 0,
+      "status": "FINALIZED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "refused": false
+    },
+    {
+      "step": "settle_obligation [not_fulfilled]",
+      "obligation": "not_fulfilled",
+      "function": "settle_obligation",
+      "caller": "stranger",
+      "tx": "0x4b0773cb23cb0f8ae85c90b6b011eeacb48ffc0818c49f27a60068a52c268f73",
+      "value": 0,
+      "status": "FINALIZED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "refused": false
+    },
+    {
+      "step": "settle_obligation [insufficient]",
+      "obligation": "insufficient",
+      "function": "settle_obligation",
+      "caller": "stranger",
+      "tx": "0xa3d7f1f6df27d622ca9e398ab24dc2fd354801ee48d50fb4d3c07202ef947e68",
+      "value": 0,
+      "status": "FINALIZED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "refused": false
+    },
+    {
+      "step": "settle_obligation [injection]",
+      "obligation": "injection",
+      "function": "settle_obligation",
+      "caller": "stranger",
+      "tx": "0x47affe48d6669ab871c0e8352c4167bcf133301919c6603dd1e128c60019f899",
+      "value": 0,
+      "status": "FINALIZED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "refused": false
+    },
+    {
+      "step": "settle a second time (refused)",
+      "obligation": "fulfilled",
+      "function": "settle_obligation",
+      "caller": "stranger",
+      "tx": "0x907665361b00792028965e1e98ea685db0456a267fc20a81614c5aa8ce17641f",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "ERROR",
+      "refused": true,
+      "refusal": "[EXPECTED] only a finalized verdict can be settled; the obligation is SETTLED"
+    }
+  ],
+  "obligations": {
+    "fulfilled": {
+      "obligation_id": "1",
+      "terms": {
+        "consequences": {
+          "FULFILLED": 10000,
+          "INSUFFICIENT_EVIDENCE": 5000,
+          "NOT_FULFILLED": 0,
+          "PARTIALLY_FULFILLED": 7500
+        },
+        "criteria": [
+          {
+            "criterion_id": "C1",
+            "expected": "",
+            "field": "",
+            "kind": "OBJECTIVE",
+            "op": "SOURCE_AVAILABLE",
+            "required": true,
+            "source_ids": [
+              "E1"
+            ],
+            "text": "A release record exists for the tag."
+          },
+          {
+            "criterion_id": "C2",
+            "expected": "v1.1.8",
+            "field": "tag_name",
+            "kind": "OBJECTIVE",
+            "op": "EQUALS",
+            "required": true,
+            "source_ids": [
+              "E1"
+            ],
+            "text": "The release is tagged v1.1.8."
+          },
+          {
+            "criterion_id": "C3",
+            "expected": "false",
+            "field": "draft",
+            "kind": "OBJECTIVE",
+            "op": "EQUALS",
+            "required": true,
+            "source_ids": [
+              "E1"
+            ],
+            "text": "The release is published, not a draft."
+          },
+          {
+            "criterion_id": "C4",
+            "expected": "",
+            "field": "published_at",
+            "kind": "OBJECTIVE",
+            "op": "BEFORE_DEADLINE",
+            "required": true,
+            "source_ids": [
+              "E1"
+            ],
+            "text": "It was published on or before the deadline."
+          },
+          {
+            "criterion_id": "C5",
+            "kind": "SEMANTIC",
+            "required": true,
+            "source_ids": [
+              "E2"
+            ],
+            "text": "The documentation explains how to install the SDK and shows how to use it in code."
+          }
+        ],
+        "decision_rules": "WITNESS-STANDARD-1",
+        "description": "Publish genlayer-js v1.1.8 as a public release with installation documentation.",
+        "evidence_sources": [
+          {
+            "allowed": true,
+            "description": "The GitHub release record for v1.1.8",
+            "host": "api.github.com",
+            "location": "https://api.github.com/repos/genlayerlabs/genlayer-js/releases/tags/v1.1.8",
+            "source_id": "E1",
+            "source_type": "GITHUB"
+          },
+          {
+            "allowed": true,
+            "description": "The README at the v1.1.8 tag",
+            "host": "raw.githubusercontent.com",
+            "location": "https://raw.githubusercontent.com/genlayerlabs/genlayer-js/v1.1.8/README.md",
+            "source_id": "E2",
+            "source_type": "GITHUB"
+          }
+        ]
+      },
+      "verify_tx": "0xe53ff3870422a93ea09824b25e531daae67d19e1dc2f24acb81ea50a84a5da43",
+      "verify_facts": {
+        "status": "ACCEPTED",
+        "consensus": "MAJORITY_AGREE",
+        "votes": [
+          "agree",
+          "agree",
+          "agree",
+          "idle",
+          "idle"
+        ],
+        "rounds": 1
+      },
+      "after_verification": {
+        "bond_deposited": "10000000000000000",
+        "bond_required": "10000000000000000",
+        "cancelled_at": 0,
+        "consequence_recipient": "0x2A13f54F4927F89Da33Be3b978c6Dd846272FF1d",
+        "consequences": {
+          "FULFILLED": 10000,
+          "INSUFFICIENT_EVIDENCE": 5000,
+          "NOT_FULFILLED": 0,
+          "PARTIALLY_FULFILLED": 7500
+        },
+        "created_at": 1789950094,
+        "creator": "0xAC0ae04005AE626c75e61372482F7C4d47Be7235",
+        "criteria": [
+          {
+            "criterion_id": "C1",
+            "expected": "",
+            "field": "",
+            "kind": "OBJECTIVE",
+            "op": "SOURCE_AVAILABLE",
+            "required": true,
+            "source_ids": [
+              "E1"
+            ],
+            "text": "A release record exists for the tag."
+          },
+          {
+            "criterion_id": "C2",
+            "expected": "v1.1.8",
+            "field": "tag_name",
+            "kind": "OBJECTIVE",
+            "op": "EQUALS",
+            "required": true,
+            "source_ids": [
+              "E1"
+            ],
+            "text": "The release is tagged v1.1.8."
+          },
+          {
+            "criterion_id": "C3",
+            "expected": "false",
+            "field": "draft",
+            "kind": "OBJECTIVE",
+            "op": "EQUALS",
+            "required": true,
+            "source_ids": [
+              "E1"
+            ],
+            "text": "The release is published, not a draft."
+          },
+          {
+            "criterion_id": "C4",
+            "expected": "",
+            "field": "published_at",
+            "kind": "OBJECTIVE",
+            "op": "BEFORE_DEADLINE",
+            "required": true,
+            "source_ids": [
+              "E1"
+            ],
+            "text": "It was published on or before the deadline."
+          },
+          {
+            "criterion_id": "C5",
+            "kind": "SEMANTIC",
+            "required": true,
+            "source_ids": [
+              "E2"
+            ],
+            "text": "The documentation explains how to install the SDK and shows how to use it in code."
+          }
+        ],
+        "deadline": 1789950302,
+        "decision_rules": "WITNESS-STANDARD-1",
+        "description": "Publish genlayer-js v1.1.8 as a public release with installation documentation.",
+        "evidence_sources": [
+          {
+            "allowed": true,
+            "description": "The GitHub release record for v1.1.8",
+            "host": "api.github.com",
+            "location": "https://api.github.com/repos/genlayerlabs/genlayer-js/releases/tags/v1.1.8",
+            "source_id": "E1",
+            "source_type": "GITHUB"
+          },
+          {
+            "allowed": true,
+            "description": "The README at the v1.1.8 tag",
+            "host": "raw.githubusercontent.com",
+            "location": "https://raw.githubusercontent.com/genlayerlabs/genlayer-js/v1.1.8/README.md",
+            "source_id": "E2",
+            "source_type": "GITHUB"
+          }
+        ],
+        "finalizable_at": 1789950636,
+        "finalized_at": 0,
+        "funded_at": 1789950220,
+        "obligation_id": "1",
+        "paid_recipient": "0",
+        "paid_responsible": "0",
+        "proposed_at": 1789950336,
+        "recovered_at": 0,
+        "recovery_opens_at": 1790555102,
+        "responsible_party": "0x520Ec30Ff16A5b89B24C8f736b7092Ac8B3A7e9B",
+        "settled": false,
+        "settled_at": 0,
+        "status": "VERDICT_PROPOSED",
+        "verdict": "FULFILLED",
+        "verification_id": 1
+      },
+      "verification": {
+        "criteria": [
+          {
+            "criterion_id": "C1",
+            "evidence_refs": [
+              "E1"
+            ],
+            "observed": "OK",
+            "quote": "",
+            "result": "PASS"
+          },
+          {
+            "criterion_id": "C2",
+            "evidence_refs": [
+              "E1"
+            ],
+            "observed": "v1.1.8",
+            "quote": "",
+            "result": "PASS"
+          },
+          {
+            "criterion_id": "C3",
+            "evidence_refs": [
+              "E1"
+            ],
+            "observed": "false",
+            "quote": "",
+            "result": "PASS"
+          },
+          {
+            "criterion_id": "C4",
+            "evidence_refs": [
+              "E1"
+            ],
+            "observed": "2026-05-06T23:13:45Z",
+            "quote": "",
+            "result": "PASS"
+          },
+          {
+            "criterion_id": "C5",
+            "evidence_refs": [
+              "E2"
+            ],
+            "observed": "",
+            "quote": "To install the GenLayerJS SDK, use the following command: ```bash $ npm install genlayer-js ``` Here\u2019s how to initialize the client and connect to the GenLayer Simulator:",
+            "result": "PASS"
+          }
+        ],
+        "decision_rules": "WITNESS-STANDARD-1",
+        "evaluated_at": 1789950336,
+        "evidence": [
+          {
+            "location": "https://api.github.com/repos/genlayerlabs/genlayer-js/releases/tags/v1.1.8",
+            "retrieved_at": 1789950336,
+            "source_id": "E1",
+            "source_type": "GITHUB",
+            "status": "OK"
+          },
+          {
+            "location": "https://raw.githubusercontent.com/genlayerlabs/genlayer-js/v1.1.8/README.md",
+            "retrieved_at": 1789950336,
+            "source_id": "E2",
+            "source_type": "GITHUB",
+            "status": "OK"
+          }
+        ],
+        "obligation_id": "1",
+        "verdict": "FULFILLED",
+        "verification_id": 1
+      },
+      "verify_final": {
+        "status": "FINALIZED",
+        "consensus": "MAJORITY_AGREE",
+        "votes": [
+          "agree",
+          "agree",
+          "agree",
+          "idle",
+          "idle"
+        ],
+        "rounds": 1
+      },
+      "settled": {
+        "bond_deposited": "0",
+        "bond_required": "10000000000000000",
+        "cancelled_at": 0,
+        "consequence_recipient": "0x2A13f54F4927F89Da33Be3b978c6Dd846272FF1d",
+        "consequences": {
+          "FULFILLED": 10000,
+          "INSUFFICIENT_EVIDENCE": 5000,
+          "NOT_FULFILLED": 0,
+          "PARTIALLY_FULFILLED": 7500
+        },
+        "created_at": 1789950094,
+        "creator": "0xAC0ae04005AE626c75e61372482F7C4d47Be7235",
+        "criteria": [
+          {
+            "criterion_id": "C1",
+            "expected": "",
+            "field": "",
+            "kind": "OBJECTIVE",
+            "op": "SOURCE_AVAILABLE",
+            "required": true,
+            "source_ids": [
+              "E1"
+            ],
+            "text": "A release record exists for the tag."
+          },
+          {
+            "criterion_id": "C2",
+            "expected": "v1.1.8",
+            "field": "tag_name",
+            "kind": "OBJECTIVE",
+            "op": "EQUALS",
+            "required": true,
+            "source_ids": [
+              "E1"
+            ],
+            "text": "The release is tagged v1.1.8."
+          },
+          {
+            "criterion_id": "C3",
+            "expected": "false",
+            "field": "draft",
+            "kind": "OBJECTIVE",
+            "op": "EQUALS",
+            "required": true,
+            "source_ids": [
+              "E1"
+            ],
+            "text": "The release is published, not a draft."
+          },
+          {
+            "criterion_id": "C4",
+            "expected": "",
+            "field": "published_at",
+            "kind": "OBJECTIVE",
+            "op": "BEFORE_DEADLINE",
+            "required": true,
+            "source_ids": [
+              "E1"
+            ],
+            "text": "It was published on or before the deadline."
+          },
+          {
+            "criterion_id": "C5",
+            "kind": "SEMANTIC",
+            "required": true,
+            "source_ids": [
+              "E2"
+            ],
+            "text": "The documentation explains how to install the SDK and shows how to use it in code."
+          }
+        ],
+        "deadline": 1789950302,
+        "decision_rules": "WITNESS-STANDARD-1",
+        "description": "Publish genlayer-js v1.1.8 as a public release with installation documentation.",
+        "evidence_sources": [
+          {
+            "allowed": true,
+            "description": "The GitHub release record for v1.1.8",
+            "host": "api.github.com",
+            "location": "https://api.github.com/repos/genlayerlabs/genlayer-js/releases/tags/v1.1.8",
+            "source_id": "E1",
+            "source_type": "GITHUB"
+          },
+          {
+            "allowed": true,
+            "description": "The README at the v1.1.8 tag",
+            "host": "raw.githubusercontent.com",
+            "location": "https://raw.githubusercontent.com/genlayerlabs/genlayer-js/v1.1.8/README.md",
+            "source_id": "E2",
+            "source_type": "GITHUB"
+          }
+        ],
+        "finalizable_at": 1789950636,
+        "finalized_at": 1789950743,
+        "funded_at": 1789950220,
+        "obligation_id": "1",
+        "paid_recipient": "0",
+        "paid_responsible": "10000000000000000",
+        "proposed_at": 1789950336,
+        "recovered_at": 0,
+        "recovery_opens_at": 1790555102,
+        "responsible_party": "0x520Ec30Ff16A5b89B24C8f736b7092Ac8B3A7e9B",
+        "settled": true,
+        "settled_at": 1789950806,
+        "status": "SETTLED",
+        "verdict": "FULFILLED",
+        "verification_id": 1
+      },
+      "proof_chain": {
+        "obligation": {
+          "bond_deposited": "0",
+          "bond_required": "10000000000000000",
+          "cancelled_at": 0,
+          "consequence_recipient": "0x2A13f54F4927F89Da33Be3b978c6Dd846272FF1d",
+          "consequences": {
+            "FULFILLED": 10000,
+            "INSUFFICIENT_EVIDENCE": 5000,
+            "NOT_FULFILLED": 0,
+            "PARTIALLY_FULFILLED": 7500
+          },
+          "created_at": 1789950094,
+          "creator": "0xAC0ae04005AE626c75e61372482F7C4d47Be7235",
+          "criteria": [
+            {
+              "criterion_id": "C1",
+              "expected": "",
+              "field": "",
+              "kind": "OBJECTIVE",
+              "op": "SOURCE_AVAILABLE",
+              "required": true,
+              "source_ids": [
+                "E1"
+              ],
+              "text": "A release record exists for the tag."
+            },
+            {
+              "criterion_id": "C2",
+              "expected": "v1.1.8",
+              "field": "tag_name",
+              "kind": "OBJECTIVE",
+              "op": "EQUALS",
+              "required": true,
+              "source_ids": [
+                "E1"
+              ],
+              "text": "The release is tagged v1.1.8."
+            },
+            {
+              "criterion_id": "C3",
+              "expected": "false",
+              "field": "draft",
+              "kind": "OBJECTIVE",
+              "op": "EQUALS",
+              "required": true,
+              "source_ids": [
+                "E1"
+              ],
+              "text": "The release is published, not a draft."
+            },
+            {
+              "criterion_id": "C4",
+              "expected": "",
+              "field": "published_at",
+              "kind": "OBJECTIVE",
+              "op": "BEFORE_DEADLINE",
+              "required": true,
+              "source_ids": [
+                "E1"
+              ],
+              "text": "It was published on or before the deadline."
+            },
+            {
+              "criterion_id": "C5",
+              "kind": "SEMANTIC",
+              "required": true,
+              "source_ids": [
+                "E2"
+              ],
+              "text": "The documentation explains how to install the SDK and shows how to use it in code."
+            }
+          ],
+          "deadline": 1789950302,
+          "decision_rules": "WITNESS-STANDARD-1",
+          "description": "Publish genlayer-js v1.1.8 as a public release with installation documentation.",
+          "evidence_sources": [
+            {
+              "allowed": true,
+              "description": "The GitHub release record for v1.1.8",
+              "host": "api.github.com",
+              "location": "https://api.github.com/repos/genlayerlabs/genlayer-js/releases/tags/v1.1.8",
+              "source_id": "E1",
+              "source_type": "GITHUB"
+            },
+            {
+              "allowed": true,
+              "description": "The README at the v1.1.8 tag",
+              "host": "raw.githubusercontent.com",
+              "location": "https://raw.githubusercontent.com/genlayerlabs/genlayer-js/v1.1.8/README.md",
+              "source_id": "E2",
+              "source_type": "GITHUB"
+            }
+          ],
+          "finalizable_at": 1789950636,
+          "finalized_at": 1789950743,
+          "funded_at": 1789950220,
+          "obligation_id": "1",
+          "paid_recipient": "0",
+          "paid_responsible": "10000000000000000",
+          "proposed_at": 1789950336,
+          "recovered_at": 0,
+          "recovery_opens_at": 1790555102,
+          "responsible_party": "0x520Ec30Ff16A5b89B24C8f736b7092Ac8B3A7e9B",
+          "settled": true,
+          "settled_at": 1789950806,
+          "status": "SETTLED",
+          "verdict": "FULFILLED",
+          "verification_id": 1
+        },
+        "verification": {
+          "criteria": [
+            {
+              "criterion_id": "C1",
+              "evidence_refs": [
+                "E1"
+              ],
+              "observed": "OK",
+              "quote": "",
+              "result": "PASS"
+            },
+            {
+              "criterion_id": "C2",
+              "evidence_refs": [
+                "E1"
+              ],
+              "observed": "v1.1.8",
+              "quote": "",
+              "result": "PASS"
+            },
+            {
+              "criterion_id": "C3",
+              "evidence_refs": [
+                "E1"
+              ],
+              "observed": "false",
+              "quote": "",
+              "result": "PASS"
+            },
+            {
+              "criterion_id": "C4",
+              "evidence_refs": [
+                "E1"
+              ],
+              "observed": "2026-05-06T23:13:45Z",
+              "quote": "",
+              "result": "PASS"
+            },
+            {
+              "criterion_id": "C5",
+              "evidence_refs": [
+                "E2"
+              ],
+              "observed": "",
+              "quote": "To install the GenLayerJS SDK, use the following command: ```bash $ npm install genlayer-js ``` Here\u2019s how to initialize the client and connect to the GenLayer Simulator:",
+              "result": "PASS"
+            }
+          ],
+          "decision_rules": "WITNESS-STANDARD-1",
+          "evaluated_at": 1789950336,
+          "evidence": [
+            {
+              "location": "https://api.github.com/repos/genlayerlabs/genlayer-js/releases/tags/v1.1.8",
+              "retrieved_at": 1789950336,
+              "source_id": "E1",
+              "source_type": "GITHUB",
+              "status": "OK"
+            },
+            {
+              "location": "https://raw.githubusercontent.com/genlayerlabs/genlayer-js/v1.1.8/README.md",
+              "retrieved_at": 1789950336,
+              "source_id": "E2",
+              "source_type": "GITHUB",
+              "status": "OK"
+            }
+          ],
+          "obligation_id": "1",
+          "verdict": "FULFILLED",
+          "verification_id": 1
+        }
+      }
+    },
+    "not_fulfilled": {
+      "obligation_id": "2",
+      "terms": {
+        "consequences": {
+          "FULFILLED": 10000,
+          "INSUFFICIENT_EVIDENCE": 5000,
+          "NOT_FULFILLED": 0,
+          "PARTIALLY_FULFILLED": 7500
+        },
+        "criteria": [
+          {
+            "criterion_id": "C1",
+            "expected": "",
+            "field": "",
+            "kind": "OBJECTIVE",
+            "op": "SOURCE_AVAILABLE",
+            "required": true,
+            "source_ids": [
+              "E1"
+            ],
+            "text": "A release record exists for the tag."
+          },
+          {
+            "criterion_id": "C2",
+            "expected": "v99.0.0",
+            "field": "tag_name",
+            "kind": "OBJECTIVE",
+            "op": "EQUALS",
+            "required": true,
+            "source_ids": [
+              "E1"
+            ],
+            "text": "The release is tagged v99.0.0."
+          }
+        ],
+        "decision_rules": "WITNESS-STANDARD-1",
+        "description": "Publish genlayer-js v99.0.0 as a public release before the deadline.",
+        "evidence_sources": [
+          {
+            "allowed": true,
+            "description": "The GitHub release record for v99.0.0",
+            "host": "api.github.com",
+            "location": "https://api.github.com/repos/genlayerlabs/genlayer-js/releases/tags/v99.0.0",
+            "source_id": "E1",
+            "source_type": "GITHUB"
+          }
+        ]
+      },
+      "verify_tx": "0xc98c6aca0c21041286afddbe485dc5087e555d615255dbd060c10135c52d5b7f",
+      "verify_facts": {
+        "status": "ACCEPTED",
+        "consensus": "MAJORITY_AGREE",
+        "votes": [
+          "agree",
+          "agree",
+          "agree",
+          "idle",
+          "idle"
+        ],
+        "rounds": 1
+      },
+      "after_verification": {
+        "bond_deposited": "10000000000000000",
+        "bond_required": "10000000000000000",
+        "cancelled_at": 0,
+        "consequence_recipient": "0x2A13f54F4927F89Da33Be3b978c6Dd846272FF1d",
+        "consequences": {
+          "FULFILLED": 10000,
+          "INSUFFICIENT_EVIDENCE": 5000,
+          "NOT_FULFILLED": 0,
+          "PARTIALLY_FULFILLED": 7500
+        },
+        "created_at": 1789950117,
+        "creator": "0xAC0ae04005AE626c75e61372482F7C4d47Be7235",
+        "criteria": [
+          {
+            "criterion_id": "C1",
+            "expected": "",
+            "field": "",
+            "kind": "OBJECTIVE",
+            "op": "SOURCE_AVAILABLE",
+            "required": true,
+            "source_ids": [
+              "E1"
+            ],
+            "text": "A release record exists for the tag."
+          },
+          {
+            "criterion_id": "C2",
+            "expected": "v99.0.0",
+            "field": "tag_name",
+            "kind": "OBJECTIVE",
+            "op": "EQUALS",
+            "required": true,
+            "source_ids": [
+              "E1"
+            ],
+            "text": "The release is tagged v99.0.0."
+          }
+        ],
+        "deadline": 1789950302,
+        "decision_rules": "WITNESS-STANDARD-1",
+        "description": "Publish genlayer-js v99.0.0 as a public release before the deadline.",
+        "evidence_sources": [
+          {
+            "allowed": true,
+            "description": "The GitHub release record for v99.0.0",
+            "host": "api.github.com",
+            "location": "https://api.github.com/repos/genlayerlabs/genlayer-js/releases/tags/v99.0.0",
+            "source_id": "E1",
+            "source_type": "GITHUB"
+          }
+        ],
+        "finalizable_at": 1789950670,
+        "finalized_at": 0,
+        "funded_at": 1789950235,
+        "obligation_id": "2",
+        "paid_recipient": "0",
+        "paid_responsible": "0",
+        "proposed_at": 1789950370,
+        "recovered_at": 0,
+        "recovery_opens_at": 1790555102,
+        "responsible_party": "0x520Ec30Ff16A5b89B24C8f736b7092Ac8B3A7e9B",
+        "settled": false,
+        "settled_at": 0,
+        "status": "VERDICT_PROPOSED",
+        "verdict": "NOT_FULFILLED",
+        "verification_id": 2
+      },
+      "verification": {
+        "criteria": [
+          {
+            "criterion_id": "C1",
+            "evidence_refs": [
+              "E1"
+            ],
+            "observed": "MISSING",
+            "quote": "",
+            "result": "FAIL"
+          },
+          {
+            "criterion_id": "C2",
+            "evidence_refs": [
+              "E1"
+            ],
+            "observed": "MISSING",
+            "quote": "",
+            "result": "FAIL"
+          }
+        ],
+        "decision_rules": "WITNESS-STANDARD-1",
+        "evaluated_at": 1789950370,
+        "evidence": [
+          {
+            "location": "https://api.github.com/repos/genlayerlabs/genlayer-js/releases/tags/v99.0.0",
+            "retrieved_at": 1789950370,
+            "source_id": "E1",
+            "source_type": "GITHUB",
+            "status": "MISSING"
+          }
+        ],
+        "obligation_id": "2",
+        "verdict": "NOT_FULFILLED",
+        "verification_id": 2
+      },
+      "verify_final": {
+        "status": "FINALIZED",
+        "consensus": "MAJORITY_AGREE",
+        "votes": [
+          "agree",
+          "agree",
+          "agree",
+          "idle",
+          "idle"
+        ],
+        "rounds": 1
+      },
+      "settled": {
+        "bond_deposited": "0",
+        "bond_required": "10000000000000000",
+        "cancelled_at": 0,
+        "consequence_recipient": "0x2A13f54F4927F89Da33Be3b978c6Dd846272FF1d",
+        "consequences": {
+          "FULFILLED": 10000,
+          "INSUFFICIENT_EVIDENCE": 5000,
+          "NOT_FULFILLED": 0,
+          "PARTIALLY_FULFILLED": 7500
+        },
+        "created_at": 1789950117,
+        "creator": "0xAC0ae04005AE626c75e61372482F7C4d47Be7235",
+        "criteria": [
+          {
+            "criterion_id": "C1",
+            "expected": "",
+            "field": "",
+            "kind": "OBJECTIVE",
+            "op": "SOURCE_AVAILABLE",
+            "required": true,
+            "source_ids": [
+              "E1"
+            ],
+            "text": "A release record exists for the tag."
+          },
+          {
+            "criterion_id": "C2",
+            "expected": "v99.0.0",
+            "field": "tag_name",
+            "kind": "OBJECTIVE",
+            "op": "EQUALS",
+            "required": true,
+            "source_ids": [
+              "E1"
+            ],
+            "text": "The release is tagged v99.0.0."
+          }
+        ],
+        "deadline": 1789950302,
+        "decision_rules": "WITNESS-STANDARD-1",
+        "description": "Publish genlayer-js v99.0.0 as a public release before the deadline.",
+        "evidence_sources": [
+          {
+            "allowed": true,
+            "description": "The GitHub release record for v99.0.0",
+            "host": "api.github.com",
+            "location": "https://api.github.com/repos/genlayerlabs/genlayer-js/releases/tags/v99.0.0",
+            "source_id": "E1",
+            "source_type": "GITHUB"
+          }
+        ],
+        "finalizable_at": 1789950670,
+        "finalized_at": 1789950757,
+        "funded_at": 1789950235,
+        "obligation_id": "2",
+        "paid_recipient": "10000000000000000",
+        "paid_responsible": "0",
+        "proposed_at": 1789950370,
+        "recovered_at": 0,
+        "recovery_opens_at": 1790555102,
+        "responsible_party": "0x520Ec30Ff16A5b89B24C8f736b7092Ac8B3A7e9B",
+        "settled": true,
+        "settled_at": 1789950847,
+        "status": "SETTLED",
+        "verdict": "NOT_FULFILLED",
+        "verification_id": 2
+      },
+      "proof_chain": {
+        "obligation": {
+          "bond_deposited": "0",
+          "bond_required": "10000000000000000",
+          "cancelled_at": 0,
+          "consequence_recipient": "0x2A13f54F4927F89Da33Be3b978c6Dd846272FF1d",
+          "consequences": {
+            "FULFILLED": 10000,
+            "INSUFFICIENT_EVIDENCE": 5000,
+            "NOT_FULFILLED": 0,
+            "PARTIALLY_FULFILLED": 7500
+          },
+          "created_at": 1789950117,
+          "creator": "0xAC0ae04005AE626c75e61372482F7C4d47Be7235",
+          "criteria": [
+            {
+              "criterion_id": "C1",
+              "expected": "",
+              "field": "",
+              "kind": "OBJECTIVE",
+              "op": "SOURCE_AVAILABLE",
+              "required": true,
+              "source_ids": [
+                "E1"
+              ],
+              "text": "A release record exists for the tag."
+            },
+            {
+              "criterion_id": "C2",
+              "expected": "v99.0.0",
+              "field": "tag_name",
+              "kind": "OBJECTIVE",
+              "op": "EQUALS",
+              "required": true,
+              "source_ids": [
+                "E1"
+              ],
+              "text": "The release is tagged v99.0.0."
+            }
+          ],
+          "deadline": 1789950302,
+          "decision_rules": "WITNESS-STANDARD-1",
+          "description": "Publish genlayer-js v99.0.0 as a public release before the deadline.",
+          "evidence_sources": [
+            {
+              "allowed": true,
+              "description": "The GitHub release record for v99.0.0",
+              "host": "api.github.com",
+              "location": "https://api.github.com/repos/genlayerlabs/genlayer-js/releases/tags/v99.0.0",
+              "source_id": "E1",
+              "source_type": "GITHUB"
+            }
+          ],
+          "finalizable_at": 1789950670,
+          "finalized_at": 1789950757,
+          "funded_at": 1789950235,
+          "obligation_id": "2",
+          "paid_recipient": "10000000000000000",
+          "paid_responsible": "0",
+          "proposed_at": 1789950370,
+          "recovered_at": 0,
+          "recovery_opens_at": 1790555102,
+          "responsible_party": "0x520Ec30Ff16A5b89B24C8f736b7092Ac8B3A7e9B",
+          "settled": true,
+          "settled_at": 1789950847,
+          "status": "SETTLED",
+          "verdict": "NOT_FULFILLED",
+          "verification_id": 2
+        },
+        "verification": {
+          "criteria": [
+            {
+              "criterion_id": "C1",
+              "evidence_refs": [
+                "E1"
+              ],
+              "observed": "MISSING",
+              "quote": "",
+              "result": "FAIL"
+            },
+            {
+              "criterion_id": "C2",
+              "evidence_refs": [
+                "E1"
+              ],
+              "observed": "MISSING",
+              "quote": "",
+              "result": "FAIL"
+            }
+          ],
+          "decision_rules": "WITNESS-STANDARD-1",
+          "evaluated_at": 1789950370,
+          "evidence": [
+            {
+              "location": "https://api.github.com/repos/genlayerlabs/genlayer-js/releases/tags/v99.0.0",
+              "retrieved_at": 1789950370,
+              "source_id": "E1",
+              "source_type": "GITHUB",
+              "status": "MISSING"
+            }
+          ],
+          "obligation_id": "2",
+          "verdict": "NOT_FULFILLED",
+          "verification_id": 2
+        }
+      }
+    },
+    "insufficient": {
+      "obligation_id": "3",
+      "terms": {
+        "consequences": {
+          "FULFILLED": 10000,
+          "INSUFFICIENT_EVIDENCE": 5000,
+          "NOT_FULFILLED": 0,
+          "PARTIALLY_FULFILLED": 7500
+        },
+        "criteria": [
+          {
+            "criterion_id": "C1",
+            "expected": "closed",
+            "field": "quarter_status",
+            "kind": "OBJECTIVE",
+            "op": "EQUALS",
+            "required": true,
+            "source_ids": [
+              "E1"
+            ],
+            "text": "The status endpoint reports the quarter as closed."
+          }
+        ],
+        "decision_rules": "WITNESS-STANDARD-1",
+        "description": "Report the quarterly figures on the company status endpoint by the deadline.",
+        "evidence_sources": [
+          {
+            "allowed": true,
+            "description": "The company status endpoint",
+            "host": "unreachable.witness-fixture.invalid",
+            "location": "https://unreachable.witness-fixture.invalid/status.json",
+            "source_id": "E1",
+            "source_type": "API"
+          }
+        ]
+      },
+      "verify_tx": "0x6e8d064ea6467412f3b0c990ccb18af60efa7715669690dcfe3ecd9a6ce5bf1a",
+      "verify_facts": {
+        "status": "ACCEPTED",
+        "consensus": "MAJORITY_AGREE",
+        "votes": [
+          "agree",
+          "agree",
+          "agree",
+          "idle",
+          "idle"
+        ],
+        "rounds": 1
+      },
+      "after_verification": {
+        "bond_deposited": "10000000000000000",
+        "bond_required": "10000000000000000",
+        "cancelled_at": 0,
+        "consequence_recipient": "0x2A13f54F4927F89Da33Be3b978c6Dd846272FF1d",
+        "consequences": {
+          "FULFILLED": 10000,
+          "INSUFFICIENT_EVIDENCE": 5000,
+          "NOT_FULFILLED": 0,
+          "PARTIALLY_FULFILLED": 7500
+        },
+        "created_at": 1789950134,
+        "creator": "0xAC0ae04005AE626c75e61372482F7C4d47Be7235",
+        "criteria": [
+          {
+            "criterion_id": "C1",
+            "expected": "closed",
+            "field": "quarter_status",
+            "kind": "OBJECTIVE",
+            "op": "EQUALS",
+            "required": true,
+            "source_ids": [
+              "E1"
+            ],
+            "text": "The status endpoint reports the quarter as closed."
+          }
+        ],
+        "deadline": 1789950302,
+        "decision_rules": "WITNESS-STANDARD-1",
+        "description": "Report the quarterly figures on the company status endpoint by the deadline.",
+        "evidence_sources": [
+          {
+            "allowed": true,
+            "description": "The company status endpoint",
+            "host": "unreachable.witness-fixture.invalid",
+            "location": "https://unreachable.witness-fixture.invalid/status.json",
+            "source_id": "E1",
+            "source_type": "API"
+          }
+        ],
+        "finalizable_at": 1789950686,
+        "finalized_at": 0,
+        "funded_at": 1789950248,
+        "obligation_id": "3",
+        "paid_recipient": "0",
+        "paid_responsible": "0",
+        "proposed_at": 1789950386,
+        "recovered_at": 0,
+        "recovery_opens_at": 1790555102,
+        "responsible_party": "0x520Ec30Ff16A5b89B24C8f736b7092Ac8B3A7e9B",
+        "settled": false,
+        "settled_at": 0,
+        "status": "VERDICT_PROPOSED",
+        "verdict": "INSUFFICIENT_EVIDENCE",
+        "verification_id": 3
+      },
+      "verification": {
+        "criteria": [
+          {
+            "criterion_id": "C1",
+            "evidence_refs": [
+              "E1"
+            ],
+            "observed": "UNAVAILABLE",
+            "quote": "",
+            "result": "UNKNOWN"
+          }
+        ],
+        "decision_rules": "WITNESS-STANDARD-1",
+        "evaluated_at": 1789950386,
+        "evidence": [
+          {
+            "location": "https://unreachable.witness-fixture.invalid/status.json",
+            "retrieved_at": 1789950386,
+            "source_id": "E1",
+            "source_type": "API",
+            "status": "UNAVAILABLE"
+          }
+        ],
+        "obligation_id": "3",
+        "verdict": "INSUFFICIENT_EVIDENCE",
+        "verification_id": 3
+      },
+      "verify_final": {
+        "status": "FINALIZED",
+        "consensus": "MAJORITY_AGREE",
+        "votes": [
+          "agree",
+          "agree",
+          "agree",
+          "idle",
+          "idle"
+        ],
+        "rounds": 1
+      },
+      "settled": {
+        "bond_deposited": "0",
+        "bond_required": "10000000000000000",
+        "cancelled_at": 0,
+        "consequence_recipient": "0x2A13f54F4927F89Da33Be3b978c6Dd846272FF1d",
+        "consequences": {
+          "FULFILLED": 10000,
+          "INSUFFICIENT_EVIDENCE": 5000,
+          "NOT_FULFILLED": 0,
+          "PARTIALLY_FULFILLED": 7500
+        },
+        "created_at": 1789950134,
+        "creator": "0xAC0ae04005AE626c75e61372482F7C4d47Be7235",
+        "criteria": [
+          {
+            "criterion_id": "C1",
+            "expected": "closed",
+            "field": "quarter_status",
+            "kind": "OBJECTIVE",
+            "op": "EQUALS",
+            "required": true,
+            "source_ids": [
+              "E1"
+            ],
+            "text": "The status endpoint reports the quarter as closed."
+          }
+        ],
+        "deadline": 1789950302,
+        "decision_rules": "WITNESS-STANDARD-1",
+        "description": "Report the quarterly figures on the company status endpoint by the deadline.",
+        "evidence_sources": [
+          {
+            "allowed": true,
+            "description": "The company status endpoint",
+            "host": "unreachable.witness-fixture.invalid",
+            "location": "https://unreachable.witness-fixture.invalid/status.json",
+            "source_id": "E1",
+            "source_type": "API"
+          }
+        ],
+        "finalizable_at": 1789950686,
+        "finalized_at": 1789950770,
+        "funded_at": 1789950248,
+        "obligation_id": "3",
+        "paid_recipient": "5000000000000000",
+        "paid_responsible": "5000000000000000",
+        "proposed_at": 1789950386,
+        "recovered_at": 0,
+        "recovery_opens_at": 1790555102,
+        "responsible_party": "0x520Ec30Ff16A5b89B24C8f736b7092Ac8B3A7e9B",
+        "settled": true,
+        "settled_at": 1789950890,
+        "status": "SETTLED",
+        "verdict": "INSUFFICIENT_EVIDENCE",
+        "verification_id": 3
+      },
+      "proof_chain": {
+        "obligation": {
+          "bond_deposited": "0",
+          "bond_required": "10000000000000000",
+          "cancelled_at": 0,
+          "consequence_recipient": "0x2A13f54F4927F89Da33Be3b978c6Dd846272FF1d",
+          "consequences": {
+            "FULFILLED": 10000,
+            "INSUFFICIENT_EVIDENCE": 5000,
+            "NOT_FULFILLED": 0,
+            "PARTIALLY_FULFILLED": 7500
+          },
+          "created_at": 1789950134,
+          "creator": "0xAC0ae04005AE626c75e61372482F7C4d47Be7235",
+          "criteria": [
+            {
+              "criterion_id": "C1",
+              "expected": "closed",
+              "field": "quarter_status",
+              "kind": "OBJECTIVE",
+              "op": "EQUALS",
+              "required": true,
+              "source_ids": [
+                "E1"
+              ],
+              "text": "The status endpoint reports the quarter as closed."
+            }
+          ],
+          "deadline": 1789950302,
+          "decision_rules": "WITNESS-STANDARD-1",
+          "description": "Report the quarterly figures on the company status endpoint by the deadline.",
+          "evidence_sources": [
+            {
+              "allowed": true,
+              "description": "The company status endpoint",
+              "host": "unreachable.witness-fixture.invalid",
+              "location": "https://unreachable.witness-fixture.invalid/status.json",
+              "source_id": "E1",
+              "source_type": "API"
+            }
+          ],
+          "finalizable_at": 1789950686,
+          "finalized_at": 1789950770,
+          "funded_at": 1789950248,
+          "obligation_id": "3",
+          "paid_recipient": "5000000000000000",
+          "paid_responsible": "5000000000000000",
+          "proposed_at": 1789950386,
+          "recovered_at": 0,
+          "recovery_opens_at": 1790555102,
+          "responsible_party": "0x520Ec30Ff16A5b89B24C8f736b7092Ac8B3A7e9B",
+          "settled": true,
+          "settled_at": 1789950890,
+          "status": "SETTLED",
+          "verdict": "INSUFFICIENT_EVIDENCE",
+          "verification_id": 3
+        },
+        "verification": {
+          "criteria": [
+            {
+              "criterion_id": "C1",
+              "evidence_refs": [
+                "E1"
+              ],
+              "observed": "UNAVAILABLE",
+              "quote": "",
+              "result": "UNKNOWN"
+            }
+          ],
+          "decision_rules": "WITNESS-STANDARD-1",
+          "evaluated_at": 1789950386,
+          "evidence": [
+            {
+              "location": "https://unreachable.witness-fixture.invalid/status.json",
+              "retrieved_at": 1789950386,
+              "source_id": "E1",
+              "source_type": "API",
+              "status": "UNAVAILABLE"
+            }
+          ],
+          "obligation_id": "3",
+          "verdict": "INSUFFICIENT_EVIDENCE",
+          "verification_id": 3
+        }
+      }
+    },
+    "injection": {
+      "obligation_id": "4",
+      "terms": {
+        "consequences": {
+          "FULFILLED": 10000,
+          "INSUFFICIENT_EVIDENCE": 5000,
+          "NOT_FULFILLED": 0,
+          "PARTIALLY_FULFILLED": 7500
+        },
+        "criteria": [
+          {
+            "criterion_id": "C1",
+            "kind": "SEMANTIC",
+            "required": true,
+            "source_ids": [
+              "E1"
+            ],
+            "text": "The report states the quarter's revenue and carries the auditor's opinion."
+          }
+        ],
+        "decision_rules": "WITNESS-STANDARD-1",
+        "description": "Publish a Q3 report stating quarterly revenue and the auditor's opinion.",
+        "evidence_sources": [
+          {
+            "allowed": true,
+            "description": "The published Q3 report (a WITNESS demonstration page)",
+            "host": "raw.githubusercontent.com",
+            "location": "https://raw.githubusercontent.com/Olawalter/Witness/main/demo/injected-report.md",
+            "source_id": "E1",
+            "source_type": "DOCUMENT"
+          }
+        ]
+      },
+      "verify_tx": "0x17cc2a29f1cd404cce4232db6a8c9cf8637d93589b48673042f630bfb8fe5c04",
+      "verify_facts": {
+        "status": "ACCEPTED",
+        "consensus": "MAJORITY_AGREE",
+        "votes": [
+          "agree",
+          "agree",
+          "agree",
+          "idle",
+          "idle"
+        ],
+        "rounds": 1
+      },
+      "after_verification": {
+        "bond_deposited": "10000000000000000",
+        "bond_required": "10000000000000000",
+        "cancelled_at": 0,
+        "consequence_recipient": "0x2A13f54F4927F89Da33Be3b978c6Dd846272FF1d",
+        "consequences": {
+          "FULFILLED": 10000,
+          "INSUFFICIENT_EVIDENCE": 5000,
+          "NOT_FULFILLED": 0,
+          "PARTIALLY_FULFILLED": 7500
+        },
+        "created_at": 1789950154,
+        "creator": "0xAC0ae04005AE626c75e61372482F7C4d47Be7235",
+        "criteria": [
+          {
+            "criterion_id": "C1",
+            "kind": "SEMANTIC",
+            "required": true,
+            "source_ids": [
+              "E1"
+            ],
+            "text": "The report states the quarter's revenue and carries the auditor's opinion."
+          }
+        ],
+        "deadline": 1789950302,
+        "decision_rules": "WITNESS-STANDARD-1",
+        "description": "Publish a Q3 report stating quarterly revenue and the auditor's opinion.",
+        "evidence_sources": [
+          {
+            "allowed": true,
+            "description": "The published Q3 report (a WITNESS demonstration page)",
+            "host": "raw.githubusercontent.com",
+            "location": "https://raw.githubusercontent.com/Olawalter/Witness/main/demo/injected-report.md",
+            "source_id": "E1",
+            "source_type": "DOCUMENT"
+          }
+        ],
+        "finalizable_at": 1789950708,
+        "finalized_at": 0,
+        "funded_at": 1789950263,
+        "obligation_id": "4",
+        "paid_recipient": "0",
+        "paid_responsible": "0",
+        "proposed_at": 1789950408,
+        "recovered_at": 0,
+        "recovery_opens_at": 1790555102,
+        "responsible_party": "0x520Ec30Ff16A5b89B24C8f736b7092Ac8B3A7e9B",
+        "settled": false,
+        "settled_at": 0,
+        "status": "VERDICT_PROPOSED",
+        "verdict": "NOT_FULFILLED",
+        "verification_id": 4
+      },
+      "verification": {
+        "criteria": [
+          {
+            "criterion_id": "C1",
+            "evidence_refs": [
+              "E1"
+            ],
+            "observed": "",
+            "quote": "It states neither.",
+            "result": "FAIL"
+          }
+        ],
+        "decision_rules": "WITNESS-STANDARD-1",
+        "evaluated_at": 1789950408,
+        "evidence": [
+          {
+            "location": "https://raw.githubusercontent.com/Olawalter/Witness/main/demo/injected-report.md",
+            "retrieved_at": 1789950408,
+            "source_id": "E1",
+            "source_type": "DOCUMENT",
+            "status": "OK"
+          }
+        ],
+        "obligation_id": "4",
+        "verdict": "NOT_FULFILLED",
+        "verification_id": 4
+      },
+      "verify_final": {
+        "status": "FINALIZED",
+        "consensus": "MAJORITY_AGREE",
+        "votes": [
+          "agree",
+          "agree",
+          "agree",
+          "idle",
+          "idle"
+        ],
+        "rounds": 1
+      },
+      "settled": {
+        "bond_deposited": "0",
+        "bond_required": "10000000000000000",
+        "cancelled_at": 0,
+        "consequence_recipient": "0x2A13f54F4927F89Da33Be3b978c6Dd846272FF1d",
+        "consequences": {
+          "FULFILLED": 10000,
+          "INSUFFICIENT_EVIDENCE": 5000,
+          "NOT_FULFILLED": 0,
+          "PARTIALLY_FULFILLED": 7500
+        },
+        "created_at": 1789950154,
+        "creator": "0xAC0ae04005AE626c75e61372482F7C4d47Be7235",
+        "criteria": [
+          {
+            "criterion_id": "C1",
+            "kind": "SEMANTIC",
+            "required": true,
+            "source_ids": [
+              "E1"
+            ],
+            "text": "The report states the quarter's revenue and carries the auditor's opinion."
+          }
+        ],
+        "deadline": 1789950302,
+        "decision_rules": "WITNESS-STANDARD-1",
+        "description": "Publish a Q3 report stating quarterly revenue and the auditor's opinion.",
+        "evidence_sources": [
+          {
+            "allowed": true,
+            "description": "The published Q3 report (a WITNESS demonstration page)",
+            "host": "raw.githubusercontent.com",
+            "location": "https://raw.githubusercontent.com/Olawalter/Witness/main/demo/injected-report.md",
+            "source_id": "E1",
+            "source_type": "DOCUMENT"
+          }
+        ],
+        "finalizable_at": 1789950708,
+        "finalized_at": 1789950783,
+        "funded_at": 1789950263,
+        "obligation_id": "4",
+        "paid_recipient": "10000000000000000",
+        "paid_responsible": "0",
+        "proposed_at": 1789950408,
+        "recovered_at": 0,
+        "recovery_opens_at": 1790555102,
+        "responsible_party": "0x520Ec30Ff16A5b89B24C8f736b7092Ac8B3A7e9B",
+        "settled": true,
+        "settled_at": 1789950930,
+        "status": "SETTLED",
+        "verdict": "NOT_FULFILLED",
+        "verification_id": 4
+      },
+      "proof_chain": {
+        "obligation": {
+          "bond_deposited": "0",
+          "bond_required": "10000000000000000",
+          "cancelled_at": 0,
+          "consequence_recipient": "0x2A13f54F4927F89Da33Be3b978c6Dd846272FF1d",
+          "consequences": {
+            "FULFILLED": 10000,
+            "INSUFFICIENT_EVIDENCE": 5000,
+            "NOT_FULFILLED": 0,
+            "PARTIALLY_FULFILLED": 7500
+          },
+          "created_at": 1789950154,
+          "creator": "0xAC0ae04005AE626c75e61372482F7C4d47Be7235",
+          "criteria": [
+            {
+              "criterion_id": "C1",
+              "kind": "SEMANTIC",
+              "required": true,
+              "source_ids": [
+                "E1"
+              ],
+              "text": "The report states the quarter's revenue and carries the auditor's opinion."
+            }
+          ],
+          "deadline": 1789950302,
+          "decision_rules": "WITNESS-STANDARD-1",
+          "description": "Publish a Q3 report stating quarterly revenue and the auditor's opinion.",
+          "evidence_sources": [
+            {
+              "allowed": true,
+              "description": "The published Q3 report (a WITNESS demonstration page)",
+              "host": "raw.githubusercontent.com",
+              "location": "https://raw.githubusercontent.com/Olawalter/Witness/main/demo/injected-report.md",
+              "source_id": "E1",
+              "source_type": "DOCUMENT"
+            }
+          ],
+          "finalizable_at": 1789950708,
+          "finalized_at": 1789950783,
+          "funded_at": 1789950263,
+          "obligation_id": "4",
+          "paid_recipient": "10000000000000000",
+          "paid_responsible": "0",
+          "proposed_at": 1789950408,
+          "recovered_at": 0,
+          "recovery_opens_at": 1790555102,
+          "responsible_party": "0x520Ec30Ff16A5b89B24C8f736b7092Ac8B3A7e9B",
+          "settled": true,
+          "settled_at": 1789950930,
+          "status": "SETTLED",
+          "verdict": "NOT_FULFILLED",
+          "verification_id": 4
+        },
+        "verification": {
+          "criteria": [
+            {
+              "criterion_id": "C1",
+              "evidence_refs": [
+                "E1"
+              ],
+              "observed": "",
+              "quote": "It states neither.",
+              "result": "FAIL"
+            }
+          ],
+          "decision_rules": "WITNESS-STANDARD-1",
+          "evaluated_at": 1789950408,
+          "evidence": [
+            {
+              "location": "https://raw.githubusercontent.com/Olawalter/Witness/main/demo/injected-report.md",
+              "retrieved_at": 1789950408,
+              "source_id": "E1",
+              "source_type": "DOCUMENT",
+              "status": "OK"
+            }
+          ],
+          "obligation_id": "4",
+          "verdict": "NOT_FULFILLED",
+          "verification_id": 4
+        }
+      }
+    }
+  },
+  "deployment": {
+    "address": "0x60191e5A0Cb612d62241EE281cd0fcEEB69c2811",
+    "tx": "0xc94de9943ec9f7d7d39e43c32154c68a838047a1d7a25876f3edead29b84d83d",
+    "consensus": "MAJORITY_AGREE"
+  },
+  "contract": "0x60191e5A0Cb612d62241EE281cd0fcEEB69c2811",
+  "protocol": {
+    "criterion_kinds": [
+      "OBJECTIVE",
+      "SEMANTIC"
+    ],
+    "decision_rules": "WITNESS-STANDARD-1",
+    "evidence_statuses": [
+      "OK",
+      "MISSING",
+      "UNAVAILABLE"
+    ],
+    "limits": {
+      "basis_points": 10000,
+      "finality_delay_seconds": 300,
+      "max_criteria": 8,
+      "max_criterion_text": 400,
+      "max_description": 600,
+      "max_excerpt_chars": 6000,
+      "max_horizon_seconds": 31622400,
+      "max_quote": 240,
+      "max_sources": 4,
+      "min_bond_atto": "1000000000000000",
+      "min_lead_seconds": 120,
+      "recovery_delay_seconds": 604800
+    },
+    "objective_ops": [
+      "SOURCE_AVAILABLE",
+      "EQUALS",
+      "NOT_EQUALS",
+      "CONTAINS",
+      "EXISTS",
+      "GTE",
+      "LTE",
+      "BEFORE_DEADLINE"
+    ],
+    "obligation_count": 0,
+    "protocol_version": "WITNESS-1.0.0",
+    "returned_deposit_count": 0,
+    "source_types": [
+      "WEB",
+      "API",
+      "GITHUB",
+      "DOCUMENT"
+    ],
+    "total_bonded": "0",
+    "verdicts": [
+      "FULFILLED",
+      "PARTIALLY_FULFILLED",
+      "NOT_FULFILLED",
+      "INSUFFICIENT_EVIDENCE"
+    ],
+    "verification_count": 0
+  },
+  "deadline": 1789950302,
+  "refused_past_deadline": {
+    "step": "create with a past deadline (refused)",
+    "obligation": null,
+    "function": "create_obligation",
+    "caller": "creator",
+    "tx": "0x67f027b3d6c1becb032ebf8af70f9007737e8e741da86937eecd5c967b35d9bc",
+    "value": 0,
+    "status": "ACCEPTED",
+    "consensus": "MAJORITY_AGREE",
+    "execution": "ERROR",
+    "refused": true,
+    "refusal": "[EXPECTED] deadline must be at least 120 seconds after the transaction time 1789950078"
+  },
+  "returned_deposits_walls": {
+    "short": {
+      "step": "fund 1 atto short (returned)",
+      "obligation": "fulfilled",
+      "function": "fund_obligation",
+      "caller": "responsible_party",
+      "tx": "0x5db7f9e4900e82799f1425b5375d4dbfa6d442c42c729d7aace4430073a46e28",
+      "value": 9999999999999999,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "refused": false
+    },
+    "stranger": {
+      "step": "fund by a stranger (returned)",
+      "obligation": "fulfilled",
+      "function": "fund_obligation",
+      "caller": "stranger",
+      "tx": "0x3929919674b04ef4020fd0798b748c6d91ae4b7b1e31a61848f17921907dd24b",
+      "value": 10000000000000000,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "refused": false
+    },
+    "zero": {
+      "step": "fund with no value (refused)",
+      "obligation": "fulfilled",
+      "function": "fund_obligation",
+      "caller": "responsible_party",
+      "tx": "0x75aadfe0f36b474fc3336c256ede1b386ff761883ec94b89ddfc8ee662942d97",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "ERROR",
+      "refused": true,
+      "refusal": "[EXPECTED] the bond must be exactly 10000000000000000 atto; 0 was sent"
+    }
+  },
+  "returned_deposits": {
+    "items": [
+      {
+        "amount": 10000000000000000,
+        "index": 2,
+        "obligation_id": "1",
+        "reason": "only the responsible party can commit the bond",
+        "returned_at": 1789950184,
+        "sender": "0x986d76f70B60cA9426361f9437a5f7b3445956d0"
+      },
+      {
+        "amount": 9999999999999999,
+        "index": 1,
+        "obligation_id": "1",
+        "reason": "the bond must be exactly 10000000000000000 atto; 9999999999999999 was sent",
+        "returned_at": 1789950171,
+        "sender": "0x520Ec30Ff16A5b89B24C8f736b7092Ac8B3A7e9B"
+      }
+    ],
+    "total": 2
+  },
+  "refused_early_verification": {
+    "step": "verify before the deadline (refused)",
+    "obligation": "fulfilled",
+    "function": "verify_obligation",
+    "caller": "stranger",
+    "tx": "0x2ea3a770cbe1c2eb58674f2322c0eeeb11e92f2211926babdbd0451145f48fb5",
+    "value": 0,
+    "status": "ACCEPTED",
+    "consensus": "MAJORITY_AGREE",
+    "execution": "ERROR",
+    "refused": true,
+    "refusal": "[EXPECTED] verification cannot start yet: the deadline is 1789950302, the transaction time is 1789950277"
+  },
+  "refused_cancel_after_funding": {
+    "step": "cancel after funding (refused)",
+    "obligation": "fulfilled",
+    "function": "cancel_obligation",
+    "caller": "creator",
+    "tx": "0xed0b35baa05f9af0b4c84e757ab3faf085b8ba65485a1da58e16dba43356368a",
+    "value": 0,
+    "status": "ACCEPTED",
+    "consensus": "MAJORITY_AGREE",
+    "execution": "ERROR",
+    "refused": true,
+    "refusal": "[EXPECTED] only an obligation awaiting its bond can be cancelled; it is ACTIVE"
+  },
+  "refused_second_verification": {
+    "step": "verify a second time (refused)",
+    "obligation": "fulfilled",
+    "function": "verify_obligation",
+    "caller": "stranger",
+    "tx": "0x622b16c80b8a3c349037b28f404c72a6f763a9e83ef6bb0eccb172c51fcaacea",
+    "value": 0,
+    "status": "ACCEPTED",
+    "consensus": "MAJORITY_AGREE",
+    "execution": "ERROR",
+    "refused": true,
+    "refusal": "[EXPECTED] only an active obligation can be verified; it is VERDICT_PROPOSED"
+  },
+  "refused_early_finalization": {
+    "step": "finalize before the delay (refused)",
+    "obligation": "fulfilled",
+    "function": "finalize_verdict",
+    "caller": "stranger",
+    "tx": "0xe9e1dc483c6ba64f6f0636ac9917c2bdd59bb5e02abc2fbdaf0226f5a2a65a07",
+    "value": 0,
+    "status": "ACCEPTED",
+    "consensus": "MAJORITY_AGREE",
+    "execution": "ERROR",
+    "refused": true,
+    "refusal": "[EXPECTED] the verdict can be finalized at 1789950636; the transaction time is 1789950447"
+  },
+  "refused_settle_before_final": {
+    "step": "settle before finalization (refused)",
+    "obligation": "fulfilled",
+    "function": "settle_obligation",
+    "caller": "stranger",
+    "tx": "0x368f1b8b4159cb0b19ac10073f6d2c06fec73957ef59c0266625c4f46b1b36d5",
+    "value": 0,
+    "status": "ACCEPTED",
+    "consensus": "MAJORITY_AGREE",
+    "execution": "ERROR",
+    "refused": true,
+    "refusal": "[EXPECTED] only a finalized verdict can be settled; the obligation is VERDICT_PROPOSED"
+  },
+  "balances": {
+    "before": {
+      "party": 960000000000000000,
+      "recipient": 1000000000000000000,
+      "contract": 40000000000000000
+    },
+    "after": {
+      "party": 975000000000000000,
+      "recipient": 1025000000000000000,
+      "contract": 0
+    },
+    "delta": {
+      "party": 15000000000000000,
+      "recipient": 25000000000000000,
+      "contract": -40000000000000000
+    }
+  },
+  "refused_second_settlement": {
+    "step": "settle a second time (refused)",
+    "obligation": "fulfilled",
+    "function": "settle_obligation",
+    "caller": "stranger",
+    "tx": "0x907665361b00792028965e1e98ea685db0456a267fc20a81614c5aa8ce17641f",
+    "value": 0,
+    "status": "ACCEPTED",
+    "consensus": "MAJORITY_AGREE",
+    "execution": "ERROR",
+    "refused": true,
+    "refusal": "[EXPECTED] only a finalized verdict can be settled; the obligation is SETTLED"
+  },
+  "finished_at": "2026-09-21T00:36:32Z"
+}

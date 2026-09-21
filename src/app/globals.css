@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+/*
+ * WITNESS design system — an evidence dossier, not a dashboard.
+ *
+ * Warm ivory paper, near-black ink, hairline rules instead of cards and
+ * shadows. Amber is the protocol's own colour and is spent only where the
+ * protocol acts: the bond, evidence, verification, the primary action. Verdicts
+ * carry their own reserved hues and always appear with a word, never colour
+ * alone. Newsreader sets the headlines like a printed record, Plex Sans carries
+ * prose, and Plex Mono carries every figure, address, hash and identifier.
+ */
+
+@theme {
+  --color-ink: #111111;
+  --color-paper: #f7f6f2;
+  --color-surface: #eeede8;
+  --color-rule: #ddd9cf;
+  --color-muted: #6b6659;
+  --color-amber: #d99a28;
+  --color-amber-deep: #a9761b;
+  --color-fulfilled: #2f6f4f;
+  --color-not-fulfilled: #a33a2a;
+  --color-partial: #9a6b12;
+  --color-insufficient: #5b5f6b;
+
+  --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-newsreader), ui-serif, Georgia, serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+
+  --radius-none: 0px;
+}
+
+@layer base {
+  html {
+    background: var(--color-paper);
+    color-scheme: light;
+  }
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: var(--color-amber);
+    color: var(--color-ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+}
+
+@layer components {
+  /* a small-caps field label, the dossier's voice */
+  .label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+  .figure {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+  /* the stamped section number of a dossier */
+  .section-no {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--color-amber-deep);
+  }
+  .rule {
+    border-top: 1px solid var(--color-rule);
+  }
+  /* the verdict stamp: a ruled box, ink on paper, never a filled pill */
+  .stamp {
+    border: 2px solid currentColor;
+    font-family: var(--font-mono);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
