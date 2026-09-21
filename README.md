@@ -193,10 +193,17 @@ Requires Python 3.12 and Node.js 20.9 or newer.
 
 ```bash
 python -m pip install -r requirements.txt
+python scripts/fetch_genvm_bundle.py            # seeds the GenVM runner bundle; needed once
 npm install
 cp .env.example .env.local
 npm run dev
 ```
+
+Direct-mode tests run a real GenVM, which needs the runner bundle in
+`~/.cache/{genvm-linter,gltest-direct}`. On a cold cache `gltest` asks for the release asset under a
+name the v0.3.0-rc line no longer publishes, so the tests fail at import while the linter still
+passes. `fetch_genvm_bundle.py` fetches whichever asset exists, checks that the archive opens, and
+seeds both caches. It is a no-op once they are warm.
 
 ## 17. Testing
 
@@ -235,7 +242,7 @@ runner, code hash and the toolchain versions.
 | `NEXT_PUBLIC_GENLAYER_RPC_URL` | optional; defaults to StudioNet's RPC |
 | `SKIP_INTEGRATION` | tests only; `0` runs the live suite |
 | `WITNESS_CONTRACT` | tests only; reuse a deployment instead of deploying |
-| `GENVM_VERSION` | linter only; pins the GenVM bundle that carries this runner |
+| `GENVM_VERSION` | tooling only; pins the GenVM bundle that carries this runner (`v0.3.0-rc7`) |
 
 Nothing secret is configured anywhere: no private keys, no seed phrases, no API secrets.
 

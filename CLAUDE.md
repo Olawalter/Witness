@@ -33,6 +33,7 @@ tests/integration/        the live StudioNet suite; writes docs/live-e2e.json
 scripts/deploy.py         deploy from git bytes, verify, record
 scripts/inspect.py        byte-verify a deployment and write its schema
 scripts/mutate.py         mutation sweep over the direct suite
+scripts/fetch_genvm_bundle.py  seeds the GenVM runner bundle both tools read
 src/                      the Next.js app (App Router, strict TypeScript)
   lib/contracts/          the schema-first adapter and the acts a viewer may perform
   lib/genlayer/           config, clients, the transaction state machine
@@ -44,6 +45,7 @@ docs/                     deployment.json, live-e2e.json, e2e-verification.md, s
 ## Commands
 
 ```bash
+python scripts/fetch_genvm_bundle.py
 GENVM_VERSION=v0.3.0-rc7 genvm-lint check contracts/Witness.py --json
 python -m pytest tests/direct -q
 python scripts/mutate.py
@@ -55,6 +57,11 @@ python scripts/inspect.py <address> --write-deployment
 
 On Windows set `PYTHONUTF8=1`. `genvm-lint` picks the newest cached GenVM bundle, which may not carry
 this runner; `GENVM_VERSION=v0.3.0-rc7` pins the one that does.
+
+A cold `~/.cache` fails in a way that reads like a contract bug: `genvm-lint` passes and every direct
+test errors at import, because `gltest` requests the runner bundle under a name the v0.3.0-rc line
+renamed. `scripts/fetch_genvm_bundle.py` seeds both caches. A green local run proves nothing about a
+fresh machine — reproduce with an empty `HOME`.
 
 ## After a contract change
 

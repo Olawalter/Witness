@@ -37,6 +37,9 @@ jobs:
           key: genvm-${{ env.GENVM_VERSION }}
       - run: python -m pip install --upgrade pip
       - run: pip install -r requirements.txt
+      # On a cold cache gltest asks for the runner bundle under a name the v0.3.0-rc line no
+      # longer publishes, so every direct test errors at import while the linter still passes.
+      - run: python scripts/fetch_genvm_bundle.py
       - run: genvm-lint check contracts/Witness.py --json
       - run: python -m pytest tests/direct -v
 
