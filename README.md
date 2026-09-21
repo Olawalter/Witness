@@ -14,7 +14,8 @@ operator, no server-side signer.
 |---|---|
 | Contract | [`0x60191e5A0Cb612d62241EE281cd0fcEEB69c2811`](https://explorer-studio.genlayer.com/address/0x60191e5A0Cb612d62241EE281cd0fcEEB69c2811) on GenLayer StudioNet (chain 61999), byte-identical to [`contracts/Witness.py`](contracts/Witness.py) |
 | Live suite | 17 of 17 on StudioNet — [`docs/live-e2e.json`](docs/live-e2e.json), [`docs/e2e-verification.md`](docs/e2e-verification.md) |
-| Direct suite | 94 tests in GenVM direct mode |
+| Direct suite | 131 tests in GenVM direct mode |
+| Mutation sweep | 49 of 53 killed, 4 documented equivalent, 0 undocumented |
 | Frontend | 36 tests, strict TypeScript, Next.js App Router |
 | Frontend deployment | not deployed yet (see [Frontend setup](#frontend-setup)) |
 
@@ -209,11 +210,22 @@ seeds both caches. It is a no-op once they are warm.
 
 ```bash
 GENVM_VERSION=v0.3.0-rc7 genvm-lint check contracts/Witness.py --json   # PYTHONUTF8=1 on Windows
-python -m pytest tests/direct -q                       # 94 tests, GenVM direct mode
+python -m pytest tests/direct -q                       # 131 tests, GenVM direct mode
 python scripts/mutate.py                               # mutation sweep over the direct suite
 SKIP_INTEGRATION=0 python -m pytest tests/integration -v -s   # the live StudioNet suite, ~16 min
 npm run lint && npm run typecheck && npm test && npm run build
 ```
+
+**Mutation sweep: 49 of 53 killed, 4 documented equivalent, 0 undocumented.** Each mutant breaks
+one guard in a scratch copy of the contract and requires the direct suite to fail. The first full
+run killed 44; the nine survivors were read against the contract. Five were real gaps in the suite,
+all in how evidence is classified and bound, and all now closed: a field criterion against a 404
+source, an absent field, an unreadable source's `observed` value, a finding citing a source its
+criterion was not permitted to use, and an out-of-enum model result that must fail as `[LLM_ERROR]`
+inside the round rather than at the boundary. The contract was correct in every case; the suite did
+not hold it. The remaining four are guards no public call can reach, kept as defence in depth, each
+listed in `scripts/mutate.py` with the reason. The script exits non-zero only on a survivor that is
+not so documented.
 
 `gltest tests/integration -v -s` collects the same live tests. Direct tests mock the web and the
 model — test fixtures, and only there — to prove what the contract decides from a given retrieval;

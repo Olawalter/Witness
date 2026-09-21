@@ -38,13 +38,13 @@ payout.
 | A source added after the fact | sources are part of the frozen terms; there is no path that adds one | `test_creation_freezes_the_terms` |
 | An unavailable or stale source | a non-2xx, empty, oversized or unreadable response is UNAVAILABLE and can establish nothing; 404 and 410 are MISSING, which is evidence of absence | `test_an_unreachable_source_cannot_establish_anything`, `test_a_missing_page_fails_its_availability_criterion` |
 | Oversized content | responses over 1 MB are unreadable; what reaches a prompt is at most 6,000 characters per source | `test_oversized_and_empty_bodies_are_unavailable` |
-| An irrelevant source | the model is shown only the sources a semantic criterion may be judged from, and a finding citing any other source is downgraded | `test_each_ungrounded_shape_is_refused` |
+| An irrelevant source | the model is shown only the sources a semantic criterion may be judged from, and a finding citing any other source is downgraded, even when the quote is really in that source | `test_each_ungrounded_shape_is_refused`, `test_a_finding_may_rest_only_on_a_source_its_criterion_permits` |
 
 ## Adjudication attacks
 
 | Attack | What stops it |
 |---|---|
-| Malformed JSON, unknown verdict, missing criteria | the answer is parsed defensively: an answer that is not an object, omits a criterion, answers one twice or uses a result outside the enum raises `[LLM_ERROR]`, the round rotates, nothing is recorded | `test_malformed_model_output_records_nothing` |
+| Malformed JSON, unknown verdict, missing criteria | the answer is parsed defensively: an answer that is not an object, omits a criterion, answers one twice or uses a result outside the enum raises `[LLM_ERROR]`, the round rotates, nothing is recorded | `test_malformed_model_output_records_nothing`, `test_a_result_outside_the_enum_is_a_model_error_not_a_boundary_refusal` |
 | An invented quote | a PASS or FAIL must cite a permitted source and quote a passage of 12 to 240 characters found in that node's own copy; anything else becomes UNKNOWN | `test_a_claim_the_page_does_not_carry_becomes_unknown` |
 | Leader-only acceptance | the validator repeats the whole task — its own fetches, its own model call, its own derivation — and compares every consensus-critical field | `test_a_leader_claiming_fulfilled_on_dead_sources_is_refused` |
 | A validator that only checks formatting | there is no formatting-only path: the comparison is over the verdict, every criterion's result, its evidence references, an objective criterion's observed value, and each source's availability | `test_a_validator_compares_every_consensus_critical_field` |
@@ -119,4 +119,32 @@ this repository or in the bundle, and there is no server-side signer.
 `python scripts/mutate.py` breaks one guard at a time in a scratch copy and requires the direct
 suite to fail. Every access check, every bond rule, every lifecycle gate, the payout arithmetic,
 each objective operator, quote grounding, the verdict derivation and every consensus-critical
-comparison is covered. The result is recorded in the README with the suite's counts.
+comparison is covered.
+
+**49 of 53 killed, 4 documented equivalent, 0 undocumented.**
+
+The first run found five guards the suite did not hold. The contract was right each time; the tests
+under-specified it:
+
+| Guard | What the suite missed | Now held by |
+|---|---|---|
+| a field criterion against a 404 source fails | only `SOURCE_AVAILABLE` was tested against a 404 | `test_each_shape_of_answer_records_one_exact_pair[missing]` |
+| an absent field is UNKNOWN, not FAIL | a test named for it never omitted a field | `...[field absent]` |
+| an unreadable source records `UNAVAILABLE` | `observed` is consensus-critical and was never asserted | `...[unreachable]`, `test_exists_separates_not_there_from_cannot_tell` |
+| a finding may cite only its criterion's sources | the quote happened not to appear in the other source | `test_a_finding_may_rest_only_on_a_source_its_criterion_permits` |
+| an out-of-enum result is `[LLM_ERROR]` in the round | the boundary also refuses it, and the test checked only that it reverted | `test_a_result_outside_the_enum_is_a_model_error_not_a_boundary_refusal` |
+
+The fourth was a real fail-open in the suite's coverage, not only a precision gap: the
+post-consensus boundary checks evidence references against the obligation's sources, not each
+criterion's, so the grounding rule is the only thing that binds a finding to what its criterion may
+be judged from.
+
+The four equivalent mutants are guards no public call can reach, kept so a future caller cannot
+bypass them:
+
+| Guard | Why it cannot fire |
+|---|---|
+| `_payout` refuses an empty or settled ledger | both callers gate on status and set a terminal status after it; funding requires a bond above `MIN_BOND` |
+| `_payout` refuses a split that does not balance | `_split` returns `(x, bond - x)` with `bps` validated into `[0, BPS]`; `test_payout_invariants.py` proves it over the domain |
+| the boundary re-derives the verdict | the round derived it with the same `_derive` from the same results |
+| the boundary checks evidence references | grounding clears every ungrounded reference first |

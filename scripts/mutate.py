@@ -1,8 +1,11 @@
 """Mutation sweep: break one guard at a time in a scratch copy of the contract
 and require the direct suite to fail. A surviving mutant is a floor no test
-holds.
+holds, unless it is listed in EQUIVALENT with the reason no call can reach it.
 
-    python scripts/mutate.py
+    python scripts/mutate.py                      # all mutants
+    python scripts/mutate.py "double settlement"  # only the named ones
+
+Exits non-zero on any survivor that is not a documented equivalent.
 """
 import os
 import pathlib
@@ -106,10 +109,34 @@ MUTANTS = [
 ]
 
 
+# Guards that no public call can reach, kept as defence in depth. Removing one
+# changes no observable behaviour, so no test can kill it; each reason says why.
+EQUIVALENT = {
+    "double settlement":
+        "both callers of _payout gate on status and set a terminal status after it; funding "
+        "requires the exact bond above MIN_BOND, so a settleable ledger is positive",
+    "payout does not balance":
+        "_split returns (x, bond - x) and consequences are validated into [0, BPS] at creation; "
+        "proved over the whole domain by tests/direct/test_payout_invariants.py",
+    "the contract accepts any agreed verdict":
+        "the agreed verdict was derived inside the round by the same _derive from the same "
+        "results, so the re-derivation always matches",
+    "the contract accepts unknown evidence refs":
+        "_semantic clears every ungrounded ref and objective refs are the criterion's own "
+        "source, so every ref reaching the boundary is already a known source",
+}
+
+
 def main() -> int:
+    only = set(sys.argv[1:])
+    unknown = only - {name for name, _, _ in MUTANTS}
+    if unknown:
+        print(f"no such mutant: {', '.join(sorted(unknown))}")
+        return 2
+    chosen = [m for m in MUTANTS if not only or m[0] in only]
     survivors = []
     with tempfile.TemporaryDirectory() as tmp:
-        for name, old, new in MUTANTS:
+        for name, old, new in chosen:
             if SOURCE.count(old) != 1:
                 print(f"BAD MUTANT {name!r}: pattern found {SOURCE.count(old)} times")
                 survivors.append(name)
@@ -124,10 +151,15 @@ def main() -> int:
             print(f"{'killed  ' if killed else 'SURVIVED'} {name}", flush=True)
             if not killed:
                 survivors.append(name)
-    print(f"\n{len(MUTANTS) - len(survivors)}/{len(MUTANTS)} mutants killed")
-    if survivors:
-        print("survivors:", ", ".join(survivors))
-    return 1 if survivors else 0
+    equivalent = [s for s in survivors if s in EQUIVALENT]
+    real = [s for s in survivors if s not in EQUIVALENT]
+    print(f"\n{len(chosen) - len(survivors)}/{len(chosen)} mutants killed, "
+          f"{len(equivalent)} documented equivalent, {len(real)} undocumented")
+    for s in equivalent:
+        print(f"  equivalent  {s}: {EQUIVALENT[s]}")
+    for s in real:
+        print(f"  SURVIVOR    {s}")
+    return 1 if real else 0
 
 
 if __name__ == "__main__":

@@ -37,8 +37,8 @@ def test_objective_criteria_are_decided_in_code_and_record_what_they_read(direct
     assert by_id["C2"]["evidence_refs"] == ["E1"] and by_id["C2"]["quote"] == ""
 
 
-def test_a_field_that_does_not_match_fails_and_one_that_is_missing_is_unknown(direct_vm, deployed,
-                                                                              direct_charlie, active):
+def test_a_field_that_does_not_match_fails(direct_vm, deployed, direct_charlie, active):
+    # An absent field, by contrast, is UNKNOWN: see test_evidence_shapes.py.
     draft = json.dumps({"report": "Q3", "status": "draft", "published_at": "2026-09-23T09:30:00Z"}).encode()
     verify(direct_vm, deployed, direct_charlie, active,
            sources={STATUS_URL: (200, draft), REPORT_URL: (200, REPORT_BODY)})
